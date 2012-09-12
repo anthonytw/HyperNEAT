@@ -43,7 +43,8 @@ ELSE(CYGWIN)
 		ELSE(APPLE)
 		ADD_DEFINITIONS(
 			-DTIXML_USE_STL
-			-D__WXGTK__
+            -D__WXGTK__
+            -D__WXGTK20__
 			-DWXUSINGDLL
 			-DNOPCH
 			-D_USE_MATH_DEFINES

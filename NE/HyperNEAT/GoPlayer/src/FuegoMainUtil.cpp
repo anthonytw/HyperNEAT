@@ -23,7 +23,7 @@ bool LoadBookFile(GoBook& book, const path& file)
 {
     path normalizedFile = file;
     normalizedFile.normalize();
-    string nativeFile = normalizedFile.native_file_string();
+    string nativeFile = normalizedFile.c_str();
     SgDebug() << "Loading opening book from '" << nativeFile << "'... ";
     ifstream in(nativeFile.c_str());
     if (! in)

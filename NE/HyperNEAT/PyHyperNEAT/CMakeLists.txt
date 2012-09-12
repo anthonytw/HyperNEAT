@@ -35,7 +35,8 @@ ELSE(CYGWIN)
 			)
 		ELSE(APPLE)
 		ADD_DEFINITIONS(
-			-D__WXGTK__
+            -D__WXGTK__
+            -D__WXGTK20__
 			-DWXUSINGDLL
 			-DNOPCH
 			)
@@ -220,10 +221,10 @@ Hypercube_NEAT_Base
 	${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_RELEASE}
 
     debug
-    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_DEBUG}-py26
+    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_DEBUG}-py27
 
     optimized
-    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_RELEASE}-py26
+    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_RELEASE}-py27
 
     debug
     ${BOOST_LIB_PREFIX_NAME}boost_filesystem-${BOOST_LIB_EXT_NAME_DEBUG}
@@ -354,7 +355,7 @@ TARGET_LINK_LIBRARIES(
 	PyHyperNEAT
 	
 	general
-	python26
+	python27
 	)
 ELSE(WIN32)
 	IF(APPLE)
@@ -369,7 +370,7 @@ ELSE(WIN32)
 		PyHyperNEAT
 	
 		general
-		python2.6
+		python2.7
 		)
 	ENDIF(APPLE)
 ENDIF(WIN32)
