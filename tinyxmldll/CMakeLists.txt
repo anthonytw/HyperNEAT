@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 2.8)
 Project(tinyxmldll)
 
 cmake_minimum_required(VERSION 2.6)
