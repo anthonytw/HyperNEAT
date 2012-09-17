@@ -1,3 +1,24 @@
+HyperNEAT v4.0 C++ / Mod
+Anthony Wertz
+awertz@knights.ucf.edu
+
+License and the original usage and installation information is repeated
+below. The HyperNEAT source had not been touched in a while so this fork
+is an attempt to make it build fine on more recent systems (Ubuntu 12.04
+for example). This should bring it up to date.
+
+In the future, this should turn into an Ubuntu package to be less cludgy
+but for now here are some minor adjustments.
+
+If you are using Ubuntu 12.04, you can find a script 'get_hyperneat' in
+the 'external' directory of my repository here:
+
+https://github.com/anthonytw/neat-deforms
+
+Hopefully you find this useful. Happy hacking. :)
+
+---------------------- ORIGINAL README BELOW ----------------------------
+
 HyperNEAT v4.0 C++,
 By Jason Gauci
 http://ucfpawn.homelinux.com/joomla/
