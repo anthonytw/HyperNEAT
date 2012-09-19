@@ -215,6 +215,8 @@ int Py_getExperimentType()
 
 BOOST_PYTHON_MODULE(PyHyperNEAT)
 {
+    python::class_<HCUBE::ExperimentRun, shared_ptr<HCUBE::ExperimentRun>, boost::noncopyable >("ExperimentRun", python::no_init)
+    ;
     python::class_<NEAT::GeneticPopulation, shared_ptr<NEAT::GeneticPopulation> >("GeneticPopulation",python::init<>())
 		.def("getIndividual", &NEAT::GeneticPopulation::getIndividual)
 		.def("getGenerationCount", &NEAT::GeneticPopulation::getGenerationCount)
