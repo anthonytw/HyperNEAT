@@ -5,6 +5,7 @@
 #include "Experiments/HCUBE_Experiment.h"
 
 #include "Experiments/HCUBE_XorExperiment.h"
+
 #ifdef EPLEX_INTERNAL
 #include "Experiments/HCUBE_XorCoExperiment.h"
 #include "Experiments/HCUBE_SimpleImageExperiment.h"
@@ -39,6 +40,8 @@
 #include "Experiments/HCUBE_GoExperiment.h"
 #endif
 #include "Experiments/HCUBE_CheckersExperimentSubstrateGeom.h"
+
+#include "xor3par/HCUBE_Xor3ParExperiment.h"
 
 #ifndef HCUBE_NOGUI
 #include "HCUBE_MainFrame.h"
@@ -181,6 +184,9 @@ namespace HCUBE
 #endif
             case EXPERIMENT_CHECKERS_SUBSTRATE_GEOM:
                 experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentSubstrateGeom("",a)));
+                break;
+            case EXPERIMENT_XOR_3PARITY_ATW:
+                experiments.push_back(shared_ptr<Experiment>(new Xor3ParExperiment("Xor 3-Parity", a)));
                 break;
             default:
                 cout << string("ERROR: Unknown Experiment Type!\n");

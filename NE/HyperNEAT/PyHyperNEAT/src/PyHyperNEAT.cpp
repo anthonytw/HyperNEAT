@@ -213,6 +213,8 @@ int Py_getExperimentType()
     return int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
 }
 
+// Configure some function references.
+
 BOOST_PYTHON_MODULE(PyHyperNEAT)
 {
     python::class_<HCUBE::ExperimentRun, shared_ptr<HCUBE::ExperimentRun>, boost::noncopyable >("ExperimentRun", python::no_init)
@@ -223,12 +225,23 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 		.def("getIndividualCount", &NEAT::GeneticPopulation::getIndividualCount)
 	;
 	python::class_<NEAT::GeneticIndividual, shared_ptr<NEAT::GeneticIndividual>, boost::noncopyable >("GeneticIndividual", python::no_init)
-	;
+	    .def("spawnFastPhenotypeStack", &NEAT::GeneticIndividual::spawnFastPhenotypeStack<float>)
+        .def("getNodesCount", &NEAT::GeneticIndividual::getNodesCount)
+        //.def("getNode", &NEAT::GeneticIndividual::getNode)
+        .def("getLinksCount", &NEAT::GeneticIndividual::getLinksCount)
+        //.def("getLink", &NEAT::GeneticIndividual::getLink)
+        .def("linkExists", &NEAT::GeneticIndividual::linkExists)
+        .def("getFitness", &NEAT::GeneticIndividual::getFitness)
+        .def("getSpeciesID", &NEAT::GeneticIndividual::getSpeciesID)
+        .def("isValid", &NEAT::GeneticIndividual::isValid)
+        .def("printIndividual", &NEAT::GeneticIndividual::print)
+    ;
     python::class_<NEAT::FastNetwork<float> , shared_ptr<NEAT::FastNetwork<float> > >("FastNetwork",python::init<>())
 		.def("reinitialize", &NEAT::FastNetwork<float>::reinitialize)
 		.def("update", &NEAT::FastNetwork<float>::update)
 		.def("updateFixedIterations", &NEAT::FastNetwork<float>::updateFixedIterations)
 		.def("getValue", &NEAT::FastNetwork<float>::getValue)
+        .def("setValue", &NEAT::FastNetwork<float>::setValue)
 		.def("hasLink", &NEAT::FastNetwork<float>::hasLink)
 		.def("getLinkWeight", &NEAT::FastNetwork<float>::getLinkWeight)
     ;

@@ -118,4 +118,3 @@ subdirs(GoPlayer)
 IF(BUILD_PYTHON)
 subdirs(PyHyperNEAT)
 ENDIF(BUILD_PYTHON)
-
