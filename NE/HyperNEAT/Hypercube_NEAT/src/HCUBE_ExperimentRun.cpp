@@ -6,40 +6,41 @@
 
 #include "Experiments/HCUBE_XorExperiment.h"
 
+
 #ifdef EPLEX_INTERNAL
-#include "Experiments/HCUBE_XorCoExperiment.h"
-#include "Experiments/HCUBE_SimpleImageExperiment.h"
-#include "Experiments/HCUBE_RobotArmExperiment.h"
-#include "Experiments/HCUBE_RobotArmLatticeExperiment.h"
+//#include "Experiments/HCUBE_XorCoExperiment.h"
+//#include "Experiments/HCUBE_SimpleImageExperiment.h"
+//#include "Experiments/HCUBE_RobotArmExperiment.h"
+//#include "Experiments/HCUBE_RobotArmLatticeExperiment.h"
 #endif
-#include "Experiments/HCUBE_TicTacToeExperiment.h"
-#include "Experiments/HCUBE_TicTacToeGameExperiment.h"
-#include "Experiments/HCUBE_TicTacToeGameNoGeomExperiment.h"
-#include "Experiments/HCUBE_FindPointExperiment.h"
-#include "Experiments/HCUBE_FindClusterExperiment.h"
-#include "Experiments/HCUBE_FindClusterNoGeomExperiment.h"
-#include "Experiments/HCUBE_CheckersExperiment.h"
+//#include "Experiments/HCUBE_TicTacToeExperiment.h"
+//#include "Experiments/HCUBE_TicTacToeGameExperiment.h"
+//#include "Experiments/HCUBE_TicTacToeGameNoGeomExperiment.h"
+//#include "Experiments/HCUBE_FindPointExperiment.h"
+//#include "Experiments/HCUBE_FindClusterExperiment.h"
+//#include "Experiments/HCUBE_FindClusterNoGeomExperiment.h"
+//#include "Experiments/HCUBE_CheckersExperiment.h"
 #ifdef EPLEX_INTERNAL
-#include "Experiments/HCUBE_SpatialExperiment.h"
-#include "Experiments/HCUBE_CheckersScalingExperiment.h"
+//#include "Experiments/HCUBE_SpatialExperiment.h"
+//#include "Experiments/HCUBE_CheckersScalingExperiment.h"
 #endif
-#include "Experiments/HCUBE_CheckersExperimentNoGeom.h"
+//#include "Experiments/HCUBE_CheckersExperimentNoGeom.h"
 #ifdef EPLEX_INTERNAL
-#include "Experiments/HCUBE_CoCheckersExperiment.h"
-#include "Experiments/HCUBE_CheckersExperimentFogel.h"
+//#include "Experiments/HCUBE_CoCheckersExperiment.h"
+//#include "Experiments/HCUBE_CheckersExperimentFogel.h"
 #endif
-#include "Experiments/HCUBE_CheckersExperimentOriginalFogel.h"
+//#include "Experiments/HCUBE_CheckersExperimentOriginalFogel.h"
 #ifdef EPLEX_INTERNAL
-#include "Experiments/HCUBE_CheckersExperimentPruning.h"
-#include "Experiments/HCUBE_OthelloExperiment.h"
-#include "Experiments/HCUBE_OthelloCoExperiment.h"
-#include "Experiments/HCUBE_SpatialCasinoExperiment.h"
-#include "Experiments/HCUBE_ImageCompressionExperiment.h"
-#include "Experiments/HCUBE_BinaryCompressionExperiment.h"
-#include "Experiments/HCUBE_FindClusterBPExperiment.h"
-#include "Experiments/HCUBE_GoExperiment.h"
+//#include "Experiments/HCUBE_CheckersExperimentPruning.h"
+//#include "Experiments/HCUBE_OthelloExperiment.h"
+//#include "Experiments/HCUBE_OthelloCoExperiment.h"
+//#include "Experiments/HCUBE_SpatialCasinoExperiment.h"
+//#include "Experiments/HCUBE_ImageCompressionExperiment.h"
+//#include "Experiments/HCUBE_BinaryCompressionExperiment.h"
+//#include "Experiments/HCUBE_FindClusterBPExperiment.h"
+//#include "Experiments/HCUBE_GoExperiment.h"
 #endif
-#include "Experiments/HCUBE_CheckersExperimentSubstrateGeom.h"
+//#include "Experiments/HCUBE_CheckersExperimentSubstrateGeom.h"
 
 #include "xor3par/HCUBE_Xor3ParExperiment.h"
 
@@ -83,6 +84,7 @@ namespace HCUBE
         {
             switch (experimentType)
             {
+            /*
 #ifdef EPLEX_INTERNAL
             case EXPERIMENT_SIMPLE_IMAGE:
                 experiments.push_back(shared_ptr<Experiment>(new SimpleImageExperiment("",a)));
@@ -105,9 +107,11 @@ namespace HCUBE
                 experiments.push_back(shared_ptr<Experiment>(new RobotArmLatticeExperiment("",a)));
                 break;
 #endif
+            */
             case EXPERIMENT_XOR:
                 experiments.push_back(shared_ptr<Experiment>(new XorExperiment("",a)));
                 break;
+            /*
 #ifdef EPLEX_INTERNAL
             case EXPERIMENT_COXOR:
                 experiments.push_back(shared_ptr<Experiment>(new XorCoExperiment("",a)));
@@ -185,6 +189,7 @@ namespace HCUBE
             case EXPERIMENT_CHECKERS_SUBSTRATE_GEOM:
                 experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentSubstrateGeom("",a)));
                 break;
+            */
             case EXPERIMENT_XOR_3PARITY_ATW:
                 experiments.push_back(shared_ptr<Experiment>(new Xor3ParExperiment("Xor 3-Parity", a)));
                 break;
@@ -475,10 +480,10 @@ namespace HCUBE
         population->adjustFitness();
         cout << "Cleaning up...\n";
         //int generationDumpModulo = int(NEAT::Globals::getSingleton()->getParameterValue("GenerationDumpModulo"));
-        if (cleanup)
-            population->cleanupOld(INT_MAX/2);
-        cout << "Dumping best individuals...\n";
-        population->dumpBest(outputFileName+string(".backup.xml"),true,true);
+        //if (cleanup)
+        //    population->cleanupOld(INT_MAX/2);
+        //cout << "Dumping best individuals...\n";
+        //population->dumpBest(outputFileName+string(".backup.xml"),true,true);
         //population->cleanupOld(25);
         //population->dumpBest("out/dumpBestWithGenes(backup).xml",true);
 

@@ -334,37 +334,37 @@ ADD_LIBRARY(
 	src/HCUBE_NeuralNetworkWeightGrid.cpp
 
 	src/Experiments/HCUBE_XorExperiment.cpp
-    src/Experiments/HCUBE_XorCoExperiment.cpp
-    src/Experiments/HCUBE_CheckersCommon.cpp
-    src/Experiments/HCUBE_GoExperiment.cpp
-    src/Experiments/HCUBE_CheckersExperiment.cpp
-    src/Experiments/HCUBE_CheckersExperimentPruning.cpp
-    src/Experiments/HCUBE_CheckersExperimentFogel.cpp
-    src/Experiments/HCUBE_CheckersExperimentOriginalFogel.cpp
-    src/Experiments/HCUBE_CheckersScalingExperiment.cpp
-    src/Experiments/HCUBE_ChessExperiment.cpp
-    src/Experiments/HCUBE_OthelloCommon.cpp
-    src/Experiments/HCUBE_OthelloExperiment.cpp
-    src/Experiments/HCUBE_OthelloCoExperiment.cpp
-    src/Experiments/HCUBE_CoCheckersExperiment.cpp
-    src/Experiments/HCUBE_CheckersExperimentNoGeom.cpp
-    src/Experiments/HCUBE_CheckersExperimentSubstrateGeom.cpp
-    src/Experiments/HCUBE_FindClusterExperiment.cpp
-    src/Experiments/HCUBE_FindClusterBPExperiment.cpp
-    src/Experiments/HCUBE_FindClusterNoGeomExperiment.cpp
-    src/Experiments/HCUBE_FindPointExperiment.cpp
-    src/Experiments/HCUBE_RobotArmExperiment.cpp
-    src/Experiments/HCUBE_RobotArmLatticeExperiment.cpp
-    src/Experiments/HCUBE_SimpleImageExperiment.cpp
-    src/Experiments/HCUBE_SpatialExperiment.cpp
-    src/Experiments/HCUBE_SpatialCasinoExperiment.cpp
-    src/Experiments/HCUBE_TicTacToeExperiment.cpp
-    src/Experiments/HCUBE_TicTacToeGameExperiment.cpp
-    src/Experiments/HCUBE_TicTacToeGameNoGeomExperiment.cpp
-    src/Experiments/HCUBE_TicTacToeGameTreeSearch.cpp
-    src/Experiments/HCUBE_ImageCompressionExperiment.cpp
-    src/Experiments/HCUBE_BinaryCompressionExperiment.cpp
-    src/Experiments/HCUBE_LogicBuilderExperiment.cpp
+    #src/Experiments/HCUBE_XorCoExperiment.cpp
+    #src/Experiments/HCUBE_CheckersCommon.cpp
+    #src/Experiments/HCUBE_GoExperiment.cpp
+    #src/Experiments/HCUBE_CheckersExperiment.cpp
+    #src/Experiments/HCUBE_CheckersExperimentPruning.cpp
+    #src/Experiments/HCUBE_CheckersExperimentFogel.cpp
+    #src/Experiments/HCUBE_CheckersExperimentOriginalFogel.cpp
+    #src/Experiments/HCUBE_CheckersScalingExperiment.cpp
+    #src/Experiments/HCUBE_ChessExperiment.cpp
+    #src/Experiments/HCUBE_OthelloCommon.cpp
+    #src/Experiments/HCUBE_OthelloExperiment.cpp
+    #src/Experiments/HCUBE_OthelloCoExperiment.cpp
+    #src/Experiments/HCUBE_CoCheckersExperiment.cpp
+    #src/Experiments/HCUBE_CheckersExperimentNoGeom.cpp
+    #src/Experiments/HCUBE_CheckersExperimentSubstrateGeom.cpp
+    #src/Experiments/HCUBE_FindClusterExperiment.cpp
+    #src/Experiments/HCUBE_FindClusterBPExperiment.cpp
+    #src/Experiments/HCUBE_FindClusterNoGeomExperiment.cpp
+    #src/Experiments/HCUBE_FindPointExperiment.cpp
+    #src/Experiments/HCUBE_RobotArmExperiment.cpp
+    #src/Experiments/HCUBE_RobotArmLatticeExperiment.cpp
+    #src/Experiments/HCUBE_SimpleImageExperiment.cpp
+    #src/Experiments/HCUBE_SpatialExperiment.cpp
+    #src/Experiments/HCUBE_SpatialCasinoExperiment.cpp
+    #src/Experiments/HCUBE_TicTacToeExperiment.cpp
+    #src/Experiments/HCUBE_TicTacToeGameExperiment.cpp
+    #src/Experiments/HCUBE_TicTacToeGameNoGeomExperiment.cpp
+    #src/Experiments/HCUBE_TicTacToeGameTreeSearch.cpp
+    #src/Experiments/HCUBE_ImageCompressionExperiment.cpp
+    #src/Experiments/HCUBE_BinaryCompressionExperiment.cpp
+    #src/Experiments/HCUBE_LogicBuilderExperiment.cpp
 
     ${NEAT_DEFORMS_PATH}/xor3par/HCUBE_Xor3ParExperiment.cpp
 
