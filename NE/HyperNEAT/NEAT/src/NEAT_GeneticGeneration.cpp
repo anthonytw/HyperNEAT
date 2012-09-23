@@ -104,26 +104,20 @@ namespace NEAT
         generationElement->SetAttribute("UserData",userData);
 
         double totalFitness=0;
-
         vector<int> speciesIDs;
-
-        //cout << "Generation " << int(generationNumber) << endl;
         for (int a=0;a<(int)individuals.size();a++)
         {
-            //cout << "Indiv A = " << a << endl;
             totalFitness += individuals[a]->getFitness();
 
             for (int b=0;b<=(int)speciesIDs.size();b++)
             {
                 if (b==(int)speciesIDs.size())
                 {
-                    //cout << "Species B=size, push back " << individuals[a]->getSpeciesID() << endl;
                     speciesIDs.push_back(individuals[a]->getSpeciesID());
                     break;
                 }
                 else if (speciesIDs[b]==individuals[a]->getSpeciesID())
                 {
-                    //cout << "Species b=" << b << ", " << speciesIDs[b] << endl;
                     break;
                 }
             }

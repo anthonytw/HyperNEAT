@@ -479,6 +479,7 @@ namespace HCUBE
         cout << "Adjusting fitness...\n";
         population->adjustFitness();
         cout << "Cleaning up...\n";
+
         //int generationDumpModulo = int(NEAT::Globals::getSingleton()->getParameterValue("GenerationDumpModulo"));
         //if (cleanup)
         //    population->cleanupOld(INT_MAX/2);
