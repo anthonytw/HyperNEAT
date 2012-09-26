@@ -120,14 +120,6 @@ SET(
 	"Python include directory"
 	)
 
-SET(
-	FUEGO_INCLUDE
-	"../../../fuego-0.4"
-	CACHE
-	PATH 
-	"Fuego include directory"
-	)
-
 IF(CYGWIN)
 	SET(
 		WXWIDGETS_BUILD_INCLUDE_DEBUG
@@ -189,8 +181,6 @@ SET(
 INCLUDE_DIRECTORIES(
 	include
 	../NEAT/include
-	../cake_fixeddepth
-	../cliche-1.2
 	${TINYXMLDLL_INCLUDE}
 	${BOOST_ROOT}
 	${WXWIDGETS_INCLUDE}
@@ -201,12 +191,6 @@ INCLUDE_DIRECTORIES(
 	${MPI_INCLUDE}
 	${ZLIB_INCLUDE}
 	${PYTHON_INCLUDE}
-	${FUEGO_INCLUDE}
-	${FUEGO_INCLUDE}/go
-	${FUEGO_INCLUDE}/gouct
-	${FUEGO_INCLUDE}/gtpengine
-	${FUEGO_INCLUDE}/simpleplayers
-	${FUEGO_INCLUDE}/smartgame
     ${NEAT_DEFORMS_PATH}
 	)
 IF(WIN32)
@@ -289,14 +273,6 @@ SET(
 	"Python library directory"
 	)
 
-SET(
-    FUEGO_LIB
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../../fuego-0.4/out/"
-    CACHE
-    PATH 
-    "Fuego Library Directory"
-    ) 
-
 LINK_DIRECTORIES(
 	${TINYXMLDLL_LIB}
 	${ZLIB_LIB}
@@ -306,7 +282,6 @@ LINK_DIRECTORIES(
 	${MPI_LIB}
 	${PYTHON_LIB}
 	${LIBRARY_OUTPUT_PATH}
-	${FUEGO_LIB}
 	${BOARD_LIB}
 	${OPENCL_LIB}
 	)
@@ -485,18 +460,6 @@ TARGET_LINK_LIBRARIES(
 	Hypercube_NEAT_Base
 		
 	debug
-	ClicheLib_d
-		
-	optimized
-	ClicheLib
-
-	debug
-	CakeFixedDepthLib_d
-	
-	optimized
-	CakeFixedDepthLib
-
-	debug
 	NEATLib_d
 
 	optimized
@@ -519,12 +482,6 @@ TARGET_LINK_LIBRARIES(
 
 	optimized
 	board
-
-	debug
-	FuegoLib_d
-	
-	optimized
-	FuegoLib
 
 	debug
 	${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_DEBUG}
@@ -716,18 +673,6 @@ IF(BUILD_MPI)
 			Hypercube_NEAT_Base
 
 			debug
-			CakeFixedDepthLib_d
-	
-			optimized
-			CakeFixedDepthLib
-		
-    		debug
-		   ClicheLib_d
-		
-		   optimized
-		   ClicheLib
-
-			debug
 			NEATLib_d
 
 			optimized
@@ -750,12 +695,6 @@ IF(BUILD_MPI)
 
 	optimized
 	board
-
-	        debug
-	        FuegoLib_d
-        	
-	        optimized
-	        FuegoLib
 
 			debug
 			${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_DEBUG}

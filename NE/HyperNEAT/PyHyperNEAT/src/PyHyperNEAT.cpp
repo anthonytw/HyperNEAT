@@ -5,10 +5,10 @@
 #include "HCUBE_ExperimentRun.h"
 #include "Experiments/HCUBE_Experiment.h"
 
-#include "Experiments/HCUBE_CheckersExperiment.h"
+//#include "Experiments/HCUBE_CheckersExperiment.h"
 
-#include "SgInit.h"
-#include "GoInit.h"
+//#include "SgInit.h"
+//#include "GoInit.h"
 
 using namespace NEAT;
 
@@ -48,10 +48,12 @@ NEAT::GeneticPopulation* loadFromPopulation(string filename)
 
 void initializeHyperNEAT()
 {
+    /*
     char str[1024];
     initcake(str);
     SgInit();
     GoInit();
+    */
 }
 
 void cleanupHyperNEAT()

@@ -85,8 +85,6 @@ INCLUDE_DIRECTORIES(
     include
     ../NEAT/include
     ../Hypercube_NEAT/include
-	../cake_fixeddepth
-	../cliche-1.2
 	${TINYXMLDLL_INCLUDE}
 	${BOOST_ROOT}
 	${WXWIDGETS_INCLUDE}
@@ -97,12 +95,6 @@ INCLUDE_DIRECTORIES(
 	${MPI_INCLUDE}
 	${ZLIB_INCLUDE}
 	${PYTHON_INCLUDE}
-	${FUEGO_INCLUDE}
-	${FUEGO_INCLUDE}/go
-	${FUEGO_INCLUDE}/gouct
-	${FUEGO_INCLUDE}/gtpengine
-	${FUEGO_INCLUDE}/simpleplayers
-	${FUEGO_INCLUDE}/smartgame
 )
 
 SET(
@@ -138,7 +130,6 @@ LINK_DIRECTORIES(
 	${MPI_LIB}
 	${PYTHON_LIB}
 	${LIBRARY_OUTPUT_PATH}
-	${FUEGO_LIB}
 	${BOARD_LIB}
 	${OPENCL_LIB}
 )
@@ -173,18 +164,6 @@ optimized
 Hypercube_NEAT_Base
 
 	debug
-	ClicheLib_d
-		
-	optimized
-	ClicheLib
-
-	debug
-	CakeFixedDepthLib_d
-	
-	optimized
-	CakeFixedDepthLib
-
-	debug
 	NEATLib_d
 
 	optimized
@@ -207,12 +186,6 @@ Hypercube_NEAT_Base
 
 	optimized
 	board
-
-	debug
-	FuegoLib_d
-	
-	optimized
-	FuegoLib
 
 	debug
 	${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_DEBUG}

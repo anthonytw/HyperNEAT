@@ -9,17 +9,17 @@
 #include "HCUBE_ExperimentRun.h"
 
 #include "Experiments/HCUBE_Experiment.h"
-#include "Experiments/HCUBE_FindClusterExperiment.h"
-#include "Experiments/HCUBE_CheckersExperiment.h"
+//#include "Experiments/HCUBE_FindClusterExperiment.h"
+//#include "Experiments/HCUBE_CheckersExperiment.h"
 
 #ifdef EPLEX_INTERNAL
-#include "Experiments/HCUBE_OthelloExperiment.h"
+//#include "Experiments/HCUBE_OthelloExperiment.h"
 #endif
 
-#include "cakepp.h"
+//#include "cakepp.h"
 
-#include "SgInit.h"
-#include "GoInit.h"
+//#include "SgInit.h"
+//#include "GoInit.h"
 
 #ifndef HCUBE_NOGUI
 namespace HCUBE
@@ -36,10 +36,13 @@ int HyperNEAT_main(int argc,char **argv)
     //_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
     //_CrtSetBreakAlloc(1378);
 
+    // The cake is a lie.
+    /*
     char str[1024];
     initcake(str);
     SgInit();
     GoInit();
+    */
 
     int retval=0;
 
@@ -231,8 +234,8 @@ int HyperNEAT_main(int argc,char **argv)
 					experiment->processIndividualPostHoc(indiv);
 					cout << indiv->getUserData() << endl;
 					cout << "done!\n";
-					
-					//CREATE_PAUSE(string("Error!: ")+toString(__LINE__));
+				
+                    //CREATE_PAUSE(string("Error!: ")+toString(__LINE__));
 					
 #if 0
 					if (indiv->getUserData())
@@ -407,10 +410,13 @@ NEAT::Globals::deinit();
 
 #endif
 
+// The cake is a lie.
+/*
 exitcake();
 
 GoFini();
 SgFini();
+*/
 
 return retval;
 }
