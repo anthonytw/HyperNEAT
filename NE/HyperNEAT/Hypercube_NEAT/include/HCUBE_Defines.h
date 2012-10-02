@@ -164,6 +164,7 @@ enum ExperimentType
     EXPERIMENT_BINARY_COMPRESSION=29,                   //29
 #endif
     EXPERIMENT_XOR_3PARITY_ATW=30,                      //30
+    EXPERIMENT_IMAGE=31,
     EXPERIMENT_END
 };
 

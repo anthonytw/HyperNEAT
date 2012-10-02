@@ -342,7 +342,8 @@ ADD_LIBRARY(
     #src/Experiments/HCUBE_LogicBuilderExperiment.cpp
 
     ${NEAT_DEFORMS_PATH}/xor3par/HCUBE_Xor3ParExperiment.cpp
-
+	${NEAT_DEFORMS_PATH}/ImageExperiment/ImageExperiment.cpp
+	
 	include/HCUBE_Boost.h
 	include/HCUBE_Defines.h
 	include/HCUBE_EvaluationPanel.h
@@ -396,6 +397,7 @@ ADD_LIBRARY(
 	include/Experiments/HCUBE_LogicBuilderExperiment.h
     
     ${NEAT_DEFORMS_PATH}/xor3par/HCUBE_Xor3ParExperiment.h
+    ${NEAT_DEFORMS_PATH}/ImageExperiment/ImageExperiment.h
 	)
 
 use_precompiled_header(
