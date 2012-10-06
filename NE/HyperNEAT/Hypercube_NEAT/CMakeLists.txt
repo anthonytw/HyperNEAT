@@ -114,7 +114,7 @@ SET(
 
 SET(
 	PYTHON_INCLUDE
-	"C:/Python25/include"
+	"/usr/include/python2.7"
 	CACHE
 	PATH 
 	"Python include directory"

@@ -2,6 +2,7 @@
 #define HCUBE_EXPERIMENTRUN_H_INCLUDED
 
 #include "HCUBE_Defines.h"
+#include "HCUBE_EvaluationSet.h"
 
 namespace HCUBE
 {
@@ -109,6 +110,8 @@ namespace HCUBE
          * a thread.
          */
         void start();
+
+        EvaluationSet pythonEvaluationSet();
 
         /**
         * This function initializes an experiment given the experiment type ID.

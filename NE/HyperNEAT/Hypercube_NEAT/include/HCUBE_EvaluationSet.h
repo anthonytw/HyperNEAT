@@ -12,7 +12,6 @@ namespace HCUBE
     */
     class EvaluationSet
     {
-    public:
     protected:
         bool running;
         shared_ptr<Experiment> experiment;
@@ -45,6 +44,10 @@ namespace HCUBE
         * evaluation) and then sequentially evaluate each group.
         */
         virtual void run();
+
+        shared_ptr<NEAT::GeneticGeneration>  runPython();
+
+        shared_ptr<HCUBE::Experiment> getExperimentObject();
 
         bool isFinished()
         {

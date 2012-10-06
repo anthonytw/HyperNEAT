@@ -36,6 +36,7 @@ namespace HCUBE
                 {
                     //cout << "Processing group...\n";
                     experiment->processGroup(generation);
+
                     //cout << "Done Processing group\n";
                     experiment->clearGroup();
                 }
@@ -73,4 +74,45 @@ namespace HCUBE
 #endif
     }
 
+    shared_ptr<NEAT::GeneticGeneration>  EvaluationSet::runPython()
+    {
+
+    	//Process individuals sequentially
+		running=true;
+
+		vector<shared_ptr<NEAT::GeneticIndividual> >::iterator tmpIterator;
+
+		tmpIterator = individualIterator;
+		for (int a=0;a<individualCount;a++,tmpIterator++)
+		{
+			while (!running)
+			{
+				boost::xtime xt;
+				boost::xtime_get(&xt, boost::TIME_UTC);
+				xt.sec += 1;
+				boost::thread::sleep(xt); // Sleep for 1 second
+			}
+
+			experiment->addIndividualToGroup(*tmpIterator);
+
+			if (experiment->getGroupSize()==experiment->getGroupCapacity())
+			{
+				return generation;
+			}
+		}
+
+		if (experiment->getGroupSize()>0)
+		{
+			//Oops, maybe you specified a bad # of threads?
+			throw CREATE_LOCATEDEXCEPTION_INFO("Error, individuals were left over after run finished!");
+		}
+
+		finished=true;
+
+		return generation;
+    }
+
+    shared_ptr<HCUBE::Experiment> EvaluationSet::getExperimentObject(){
+    	return experiment;
+    }
 }

@@ -52,8 +52,6 @@
 #include "HCUBE_ExperimentPanel.h"
 #endif
 
-#include "HCUBE_EvaluationSet.h"
-
 namespace HCUBE
 {
     ExperimentRun::ExperimentRun()
@@ -387,6 +385,23 @@ namespace HCUBE
 		{
 			experiments[0]->preprocessIndividual(generation,generation->getIndividual(a));
 		}
+	}
+
+	EvaluationSet ExperimentRun::pythonEvaluationSet(){
+
+		shared_ptr<NEAT::GeneticGeneration> generation = population->getGeneration();
+		//Randomize population order for evaluation
+		generation->randomizeIndividualOrder();
+
+		int populationSize = population->getIndividualCount();
+
+		EvaluationSet evalSet(
+		                experiments[0],
+		                generation,
+		                population->getIndividualIterator(0),
+		                populationSize
+		                );
+		return evalSet;
 	}
 
     void ExperimentRun::evaluatePopulation()
