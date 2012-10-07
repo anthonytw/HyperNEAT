@@ -3,8 +3,8 @@
 #include <boost/python.hpp>
 
 #include "HCUBE_ExperimentRun.h"
-#include "Experiments/HCUBE_Experiment.h"
-#include "HCUBE_EvaluationSet.h"
+//#include "Experiments/HCUBE_Experiment.h"
+#include "/home/james/neat-deforms/src/hyperneat/ImageExperiment/ImageExperiment.h"
 
 //#include "Experiments/HCUBE_CheckersExperiment.h"
 
@@ -252,10 +252,14 @@ int Py_getMaximumGenerations()
 
 BOOST_PYTHON_MODULE(PyHyperNEAT)
 {
-	//FIX ME
-    /*python::class_<HCUBE::ExperimentRun, shared_ptr<HCUBE::ExperimentRun>, boost::noncopyable >("ExperimentRun", python::no_init)
+
+    python::class_<HCUBE::ExperimentRun, shared_ptr<HCUBE::ExperimentRun>, boost::noncopyable >("ExperimentRun", python::no_init)
+		.def("Py_Experiment", &Py_Experiment)
+		.def("produceNextGeneration", &HCUBE::ExperimentRun::produceNextGeneration)
+		.def("finishEvaluations", &HCUBE::ExperimentRun::finishEvaluations)
+		.def("preprocessPopulation",&HCUBE::ExperimentRun::preprocessPopulation)
+		//.def("pythonEvaluationSet",&HCUBE::ExperimentRun::pythonEvaluationSet,python::return_value_policy<python::reference_existing_object>())
     ;
-     */
 
     python::class_<NEAT::GeneticPopulation, shared_ptr<NEAT::GeneticPopulation> >("GeneticPopulation",python::init<>())
 		.def("getIndividual", &NEAT::GeneticPopulation::getIndividual)
@@ -297,26 +301,16 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 		.def("dumpWeightsFrom", &NEAT::LayeredSubstrate<float>::dumpWeightsFrom)
 		.def("dumpActivationLevels", &NEAT::LayeredSubstrate<float>::dumpActivationLevels)
 	;
-	//FIX ME
-	/*
-	python::class_<HCUBE::ExperimentRun, shared_ptr<HCUBE::ExperimentRun> >("ExperimentRun",python::init<>())
-		.def("Py_Experiment", &Py_Experiment)
-		.def("produceNextGeneration", &HCUBE::ExperimentRun::produceNextGeneration)
-		.def("finishEvaluations", &HCUBE::ExperimentRun::finishEvaluations)
-		.def("preprocessPopulation",&HCUBE::ExperimentRun::preprocessPopulation)
-		.def("pythonEvaluationSet",&HCUBE::ExperimentRun::pythonEvaluationSet,python::return_value_policy<python::manage_new_object>())
-	;*/
 
 	//FIX ME
-	/*python::class_<HCUBE::ImageExperiment,shared_ptr<HCUBE::ImageExperiment>>("ImageExperiment",python::init<>())
+	python::class_<HCUBE::ImageExperiment>("ImageExperiment",python::init<std::string,int>())
 		.def("processGroupAndSetReward",&HCUBE::ImageExperiment::processGroupAndSetReward)
-	;*/
+	;
 
-	//FIX ME
-	/*python::class_<HCUBE::EvaluationSet,shared_ptr<HCUBE::EvaluationSet>>("EvaluationSet",python::init<>())
-		.def("runPython", &HCUBE::EvaluationSet::runPython,python::return_value_policy<python::manage_new_object>())
-		.def("getExperimentObject", &HCUBE::EvaluationSet::getExperimentObject,python::return_value_policy<python::manage_new_object>())
-	;*/
+	python::class_<HCUBE::EvaluationSet,shared_ptr<HCUBE::EvaluationSet>, boost::noncopyable >("EvaluationSet",python::no_init)
+		.def("runPython", &HCUBE::EvaluationSet::runPython,python::return_value_policy<python::reference_existing_object>())
+		//.def("getExperimentObject", &HCUBE::EvaluationSet::getExperimentObject,python::return_value_policy<python::manage_new_object>())
+	;
 
 	python::class_<Vector3<int> >("NEAT_Vector3",python::init<>())
 		.def(python::init<int,int,int>())
