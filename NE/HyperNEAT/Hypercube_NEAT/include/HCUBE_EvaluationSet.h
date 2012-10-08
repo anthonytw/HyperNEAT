@@ -45,9 +45,9 @@ namespace HCUBE
         */
         virtual void run();
 
-        shared_ptr<NEAT::GeneticGeneration>  runPython();
+        shared_ptr<NEAT::GeneticGeneration>*  runPython();
 
-        shared_ptr<HCUBE::Experiment> getExperimentObject();
+        shared_ptr<HCUBE::Experiment>* getExperimentObject();
 
         bool isFinished()
         {

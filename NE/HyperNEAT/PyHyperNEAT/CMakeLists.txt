@@ -79,7 +79,16 @@ ZLIB_INCLUDE
 CACHE
 PATH 
 "Zlib include directory"
-) 
+)
+
+SET(
+    NEAT_DEFORMS_PATH
+    "${CMAKE_SOURCE_DIR}/../../../../src/hyperneat"
+    CACHE
+    PATH
+    "Directory of C++ additions in Neat-Deforms project."
+    FORCE
+)
 
 INCLUDE_DIRECTORIES(
     include
@@ -95,6 +104,7 @@ INCLUDE_DIRECTORIES(
 	${MPI_INCLUDE}
 	${ZLIB_INCLUDE}
 	${PYTHON_INCLUDE}
+	${NEAT_DEFORMS_PATH}
 )
 
 SET(
@@ -132,6 +142,7 @@ LINK_DIRECTORIES(
 	${LIBRARY_OUTPUT_PATH}
 	${BOARD_LIB}
 	${OPENCL_LIB}
+	${NEAT_DEFORMS_PATH}
 )
 
 ADD_LIBRARY(
@@ -139,6 +150,8 @@ PyHyperNEAT
 SHARED 
 
 src/PyHyperNEAT.cpp
+${NEAT_DEFORMS_PATH}/ImageExperiment/ImageExperiment.cpp
+${NEAT_DEFORMS_PATH}/ImageExperiment/ImageExperiment.h
 )
 
 SET_TARGET_PROPERTIES(PyHyperNEAT PROPERTIES DEBUG_POSTFIX _d)

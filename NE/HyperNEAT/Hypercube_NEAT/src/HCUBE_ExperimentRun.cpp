@@ -387,7 +387,7 @@ namespace HCUBE
 		}
 	}
 
-	EvaluationSet ExperimentRun::pythonEvaluationSet(){
+	EvaluationSet* ExperimentRun::pythonEvaluationSet(){
 
 		shared_ptr<NEAT::GeneticGeneration> generation = population->getGeneration();
 		//Randomize population order for evaluation
@@ -395,13 +395,19 @@ namespace HCUBE
 
 		int populationSize = population->getIndividualCount();
 
-		EvaluationSet evalSet(
+
+		/*EvaluationSet* evalSet(
 		                experiments[0],
 		                generation,
 		                population->getIndividualIterator(0),
 		                populationSize
-		                );
-		return evalSet;
+		                );*/
+
+		return new HCUBE::EvaluationSet(experiments[0],
+                generation,
+                population->getIndividualIterator(0),
+                populationSize
+                );
 	}
 
     void ExperimentRun::evaluatePopulation()

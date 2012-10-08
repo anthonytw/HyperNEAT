@@ -111,7 +111,7 @@ namespace HCUBE
          */
         void start();
 
-        EvaluationSet pythonEvaluationSet();
+        EvaluationSet* pythonEvaluationSet();
 
         /**
         * This function initializes an experiment given the experiment type ID.

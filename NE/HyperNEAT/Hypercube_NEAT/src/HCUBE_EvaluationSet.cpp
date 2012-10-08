@@ -74,7 +74,7 @@ namespace HCUBE
 #endif
     }
 
-    shared_ptr<NEAT::GeneticGeneration>  EvaluationSet::runPython()
+    shared_ptr<NEAT::GeneticGeneration>*  EvaluationSet::runPython()
     {
 
     	//Process individuals sequentially
@@ -97,7 +97,7 @@ namespace HCUBE
 
 			if (experiment->getGroupSize()==experiment->getGroupCapacity())
 			{
-				return generation;
+				return &generation;
 			}
 		}
 
@@ -109,10 +109,10 @@ namespace HCUBE
 
 		finished=true;
 
-		return generation;
+		return &generation;
     }
 
-    shared_ptr<HCUBE::Experiment> EvaluationSet::getExperimentObject(){
-    	return experiment;
+    shared_ptr<HCUBE::Experiment>* EvaluationSet::getExperimentObject(){
+    	return &experiment;
     }
 }
