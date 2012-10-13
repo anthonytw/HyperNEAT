@@ -74,42 +74,31 @@ namespace HCUBE
 #endif
     }
 
-    shared_ptr<NEAT::GeneticGeneration>*  EvaluationSet::runPython()
+   shared_ptr<vector<shared_ptr<NEAT::GeneticIndividual> > >*  EvaluationSet::runPython()
     {
+	   //Process individuals sequentially
+	   running=true;
 
-    	//Process individuals sequentially
-		running=true;
+	   shared_ptr<vector<shared_ptr<NEAT::GeneticIndividual> > >* individuals;
 
-		vector<shared_ptr<NEAT::GeneticIndividual> >::iterator tmpIterator;
+	   vector<shared_ptr<NEAT::GeneticIndividual> >::iterator tmpIterator;
 
-		tmpIterator = individualIterator;
-		for (int a=0;a<individualCount;a++,tmpIterator++)
-		{
-			while (!running)
-			{
-				boost::xtime xt;
-				boost::xtime_get(&xt, boost::TIME_UTC);
-				xt.sec += 1;
-				boost::thread::sleep(xt); // Sleep for 1 second
-			}
+	   tmpIterator = individualIterator;
 
-			experiment->addIndividualToGroup(*tmpIterator);
+	   for (int a=0;a<individualCount;a++,tmpIterator++)
+	   {
+		   while (!running)
+	       {
+	           	   boost::xtime xt;
+	           	   boost::xtime_get(&xt, boost::TIME_UTC);
+	           	   xt.sec += 1;
+	           	   boost::thread::sleep(xt); // Sleep for 1 second
+	       }
 
-			if (experiment->getGroupSize()==experiment->getGroupCapacity())
-			{
-				return &generation;
-			}
-		}
+		   individuals->get()->push_back(*tmpIterator);
+	   }
 
-		if (experiment->getGroupSize()>0)
-		{
-			//Oops, maybe you specified a bad # of threads?
-			throw CREATE_LOCATEDEXCEPTION_INFO("Error, individuals were left over after run finished!");
-		}
-
-		finished=true;
-
-		return &generation;
+	   return individuals;
     }
 
     shared_ptr<HCUBE::Experiment>* EvaluationSet::getExperimentObject(){

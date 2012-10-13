@@ -472,6 +472,7 @@ namespace HCUBE
                             evaluationSets[i]
                             )
                         );
+
             }
 
             //loop through each thread, making sure it is finished before we move on

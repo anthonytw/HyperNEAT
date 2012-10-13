@@ -1,6 +1,8 @@
 #include "NEAT.h"
 
 #include <boost/python.hpp>
+#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
+
 
 #include "HCUBE_ExperimentRun.h"
 #include "Experiments/HCUBE_Experiment.h"
@@ -73,6 +75,15 @@ vector<T> convertListToVector(python::list *list)
             );
     }
     return vec;
+}
+
+template<class T>
+python::list std_vector_to_py_list(const std::vector<T>& v)
+{
+    python::object get_iter = python::iterator<std::vector<T> >();
+    python::object iter = get_iter(v);
+    python::list l(iter);
+    return l;
 }
 
 void Py_setLayerInfo(
@@ -266,7 +277,7 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 		.def("getIndividualCount", &NEAT::GeneticPopulation::getIndividualCount)
 	;
 
-	python::class_<NEAT::GeneticIndividual, shared_ptr<NEAT::GeneticIndividual>, boost::noncopyable >("GeneticIndividual", python::no_init)
+	python::class_<NEAT::GeneticIndividual, shared_ptr<NEAT::GeneticIndividual>,boost::noncopyable >("GeneticIndividual", python::no_init)
 	    .def("spawnFastPhenotypeStack", &NEAT::GeneticIndividual::spawnFastPhenotypeStack<float>)
         .def("getNodesCount", &NEAT::GeneticIndividual::getNodesCount)
         //.def("getNode", &NEAT::GeneticIndividual::getNode)
@@ -278,6 +289,11 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
         .def("isValid", &NEAT::GeneticIndividual::isValid)
         .def("printIndividual", &NEAT::GeneticIndividual::print)
     ;
+
+	python::class_<std::vector<shared_ptr<GeneticIndividual> > >("GeneticIndividualVector")
+		.def(python::vector_indexing_suite< std::vector<shared_ptr<GeneticIndividual> > >())
+	;
+
     python::class_<NEAT::FastNetwork<float> , shared_ptr<NEAT::FastNetwork<float> > >("FastNetwork",python::init<>())
 		.def("reinitialize", &NEAT::FastNetwork<float>::reinitialize)
 		.def("update", &NEAT::FastNetwork<float>::update)
@@ -303,13 +319,9 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 		.def("dumpActivationLevels", &NEAT::LayeredSubstrate<float>::dumpActivationLevels)
 	;
 
-	python::class_<NEAT::GeneticGeneration, shared_ptr<NEAT::GeneticGeneration> >("GeneticGeneration",python::no_init)
+	python::class_<HCUBE::ImageExperiment,shared_ptr<HCUBE::ImageExperiment>,boost::noncopyable>("ImageExperiment",python::no_init)
+		.def("setReward",&HCUBE::ImageExperiment::setReward)
 	;
-
-	//FIX ME
-	/*python::class_<HCUBE::ImageExperiment,shared_ptr<HCUBE::ImageExperiment>,boost::noncopyable>("ImageExperiment",python::no_init)
-		.def("processGroupAndSetReward",&HCUBE::ImageExperiment::processGroupAndSetReward)
-	;*/
 
 	python::class_<HCUBE::EvaluationSet,shared_ptr<HCUBE::EvaluationSet>, boost::noncopyable >("EvaluationSet",python::no_init)
 		.def("runPython", &HCUBE::EvaluationSet::runPython,python::return_value_policy<python::reference_existing_object>())
@@ -319,6 +331,7 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 	python::class_<Vector3<int> >("NEAT_Vector3",python::init<>())
 		.def(python::init<int,int,int>())
 	;
+
 	python::def("loadFromPopulation", loadFromPopulation, python::return_value_policy<python::manage_new_object>());
     python::def("initializeHyperNEAT", initializeHyperNEAT);
 	python::def("cleanupHyperNEAT", cleanupHyperNEAT);
