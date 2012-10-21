@@ -385,16 +385,17 @@ namespace HCUBE
 		{
 			experiments[0]->preprocessIndividual(generation,generation->getIndividual(a));
 		}
+
+		cout << "PREPROCESSING COMPLETED\n";
 	}
 
-	EvaluationSet* ExperimentRun::pythonEvaluationSet(){
+	shared_ptr<NEAT::GeneticGeneration> ExperimentRun::pythonEvaluationSet(){
 
 		shared_ptr<NEAT::GeneticGeneration> generation = population->getGeneration();
 		//Randomize population order for evaluation
 		generation->randomizeIndividualOrder();
 
-		int populationSize = population->getIndividualCount();
-
+		//int populationSize = population->getIndividualCount();
 
 		/*EvaluationSet* evalSet(
 		                experiments[0],
@@ -403,11 +404,17 @@ namespace HCUBE
 		                populationSize
 		                );*/
 
-		return new HCUBE::EvaluationSet(experiments[0],
+		/*shared_ptr<HCUBE::EvaluationSet>eval(new HCUBE::EvaluationSet(experiments[0],
                 generation,
                 population->getIndividualIterator(0),
                 populationSize
-                );
+                ));
+
+		shared_ptr<NEAT::GeneticGeneration> individuals = eval->runPython();*/
+
+		cout << "EXPORTED Individuals\n";
+
+		return generation;
 	}
 
     void ExperimentRun::evaluatePopulation()

@@ -74,12 +74,12 @@ namespace HCUBE
 #endif
     }
 
-   shared_ptr<vector<shared_ptr<NEAT::GeneticIndividual> > >*  EvaluationSet::runPython()
+    shared_ptr<NEAT::GeneticGeneration>  EvaluationSet::runPython()
     {
 	   //Process individuals sequentially
 	   running=true;
 
-	   shared_ptr<vector<shared_ptr<NEAT::GeneticIndividual> > >* individuals;
+	   shared_ptr<NEAT::GeneticGeneration> individuals;
 
 	   vector<shared_ptr<NEAT::GeneticIndividual> >::iterator tmpIterator;
 
@@ -95,13 +95,17 @@ namespace HCUBE
 	           	   boost::thread::sleep(xt); // Sleep for 1 second
 	       }
 
-		   individuals->get()->push_back(*tmpIterator);
+		   individuals->addIndividual(*tmpIterator);
 	   }
+
+	   finished=true;
+
+	   cout << "Created EvaluationSets";
 
 	   return individuals;
     }
 
-    shared_ptr<HCUBE::Experiment>* EvaluationSet::getExperimentObject(){
-    	return &experiment;
+    shared_ptr<HCUBE::Experiment> EvaluationSet::getExperimentObject(){
+    	return experiment;
     }
 }

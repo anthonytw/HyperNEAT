@@ -375,7 +375,7 @@ namespace NEAT
         {
             if(generations[onGeneration]->getIndividual(a)->getFitness() < 1e-6)
             {
-                throw CREATE_LOCATEDEXCEPTION_INFO("ERROR: Fitness must be a positive number!\n");
+                //throw CREATE_LOCATEDEXCEPTION_INFO("ERROR: Fitness must be a positive number!\n");
             }
         }
 
