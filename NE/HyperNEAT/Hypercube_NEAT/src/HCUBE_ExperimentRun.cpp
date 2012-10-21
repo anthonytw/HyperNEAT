@@ -83,121 +83,18 @@ namespace HCUBE
         {
             switch (experimentType)
             {
-            /*
-#ifdef EPLEX_INTERNAL
-            case EXPERIMENT_SIMPLE_IMAGE:
-                experiments.push_back(shared_ptr<Experiment>(new SimpleImageExperiment("",a)));
-                break;
-#endif
-            case EXPERIMENT_TIC_TAC_TOE:
-                experiments.push_back(shared_ptr<Experiment>(new TicTacToeExperiment("",a)));
-                break;
-            case EXPERIMENT_TIC_TAC_TOE_GAME:
-                experiments.push_back(shared_ptr<Experiment>(new TicTacToeGameExperiment("",a)));
-                break;
-            case EXPERIMENT_TIC_TAC_TOE_NO_GEOM_GAME:
-                experiments.push_back(shared_ptr<Experiment>(new TicTacToeGameNoGeomExperiment("",a)));
-                break;
-#ifdef EPLEX_INTERNAL
-            case EXPERIMENT_ROBOT_ARM:
-                experiments.push_back(shared_ptr<Experiment>(new RobotArmExperiment("",a)));
-                break;
-            case EXPERIMENT_ROBOT_ARM_LATTICE:
-                experiments.push_back(shared_ptr<Experiment>(new RobotArmLatticeExperiment("",a)));
-                break;
-#endif
-            */
-            case EXPERIMENT_XOR:
-                experiments.push_back(shared_ptr<Experiment>(new XorExperiment("",a)));
-                break;
-            /*
-#ifdef EPLEX_INTERNAL
-            case EXPERIMENT_COXOR:
-                experiments.push_back(shared_ptr<Experiment>(new XorCoExperiment("",a)));
-                break;
-            case EXPERIMENT_MAKE_MAZE:
-                //experimentRun.setExperiment(new MakeMazeExperiment());
-                break;
-            case EXPERIMENT_ROOM_GENERATOR:
-                //experimentRun.setExperiment(new RoomGeneratorExperiment());
-                break;
-            case EXPERIMENT_CONNECTIVITY_GRAPH:
-                //experimentRun.setExperiment(new ConnectivityGraphExperiment(4,4));
-                break;
-#endif
-            case EXPERIMENT_FIND_POINT_EXPERIMENT:
-                experiments.push_back(shared_ptr<Experiment>(new FindPointExperiment("",a)));
-                break;
-            case EXPERIMENT_FIND_CLUSTER_EXPERIMENT:
-                experiments.push_back(shared_ptr<Experiment>(new FindClusterExperiment("",a)));
-                break;
-            case EXPERIMENT_FIND_CLUSTER_NO_GEOM_EXPERIMENT:
-                experiments.push_back(shared_ptr<Experiment>(new FindClusterNoGeomExperiment("",a)));
-                break;
-#ifdef EPLEX_INTERNAL
-            case EXPERIMENT_SPATIAL_CPPN:
-                experiments.push_back(shared_ptr<Experiment>(new SpatialExperiment("",a)));
-                break;
-#endif
-            case EXPERIMENT_CHECKERS:
-                experiments.push_back(shared_ptr<Experiment>(new CheckersExperiment("",a)));
-                break;
-            case EXPERIMENT_CHECKERS_NO_GEOM:
-                experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentNoGeom("",a)));
-                break;
-#ifdef EPLEX_INTERNAL
-            case EXPERIMENT_SCALABLE_CHECKERS:
-                experiments.push_back(shared_ptr<Experiment>(new CheckersScalingExperiment("",a)));
-                break;
-            case EXPERIMENT_CHECKERS_FOGEL:
-                experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentFogel("",a)));
-                break;
-#endif
-            case EXPERIMENT_CHECKERS_ORIGINAL_FOGEL:
-                experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentOriginalFogel("",a)));
-                break;
-#ifdef EPLEX_INTERNAL
-            case EXPERIMENT_CHECKERS_PRUNING:
-                experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentPruning("",a)));
-                break;
-            case EXPERIMENT_COCHECKERS:
-                experiments.push_back(shared_ptr<Experiment>(new CoCheckersExperiment("",a)));
-                break;
-            case EXPERIMENT_OTHELLO:
-                experiments.push_back(shared_ptr<Experiment>(new OthelloExperiment("",a)));
-                break;
-            case EXPERIMENT_OTHELLO_CO:
-                experiments.push_back(shared_ptr<Experiment>(new OthelloCoExperiment("",a)));
-                break;
-            case EXPERIMENT_IMAGE_COMPRESSION:
-                experiments.push_back(shared_ptr<Experiment>(new ImageCompressionExperiment("",a)));
-                break;
-            case EXPERIMENT_BINARY_COMPRESSION:
-                experiments.push_back(shared_ptr<Experiment>(new BinaryCompressionExperiment("",a)));
-                break;
-            case EXPERIMENT_SPATIAL_CASINO:
-                experiments.push_back(shared_ptr<Experiment>(new SpatialCasinoExperiment("",a)));
-                break;
-            case EXPERIMENT_FIND_CLUSTER_BP:
-                experiments.push_back(shared_ptr<Experiment>(new FindClusterBPExperiment("",a)));
-                break;
-            case EXPERIMENT_GO:
-                experiments.push_back(shared_ptr<Experiment>(new GoExperiment("",a)));
-                break;
-#endif
-            case EXPERIMENT_CHECKERS_SUBSTRATE_GEOM:
-                experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentSubstrateGeom("",a)));
-                break;
-            */
-            case EXPERIMENT_XOR_3PARITY_ATW:
-                experiments.push_back(shared_ptr<Experiment>(new Xor3ParExperiment("Xor 3-Parity", a)));
-                break;
-            case EXPERIMENT_IMAGE:
-                experiments.push_back(shared_ptr<Experiment>(new ImageExperiment("Image Experiment", a)));
-                break;
-            default:
-                cout << string("ERROR: Unknown Experiment Type!\n");
-                throw CREATE_LOCATEDEXCEPTION_INFO("ERROR: Unknown Experiment Type!");
+                case EXPERIMENT_XOR:
+                    experiments.push_back(shared_ptr<Experiment>(new XorExperiment("",a)));
+                    break;
+                case EXPERIMENT_XOR_3PARITY_ATW:
+                    experiments.push_back(shared_ptr<Experiment>(new Xor3ParExperiment("Xor 3-Parity", a)));
+                    break;
+                case EXPERIMENT_IMAGE:
+                    experiments.push_back(shared_ptr<Experiment>(new ImageExperiment("Image Experiment", a)));
+                    break;
+                default:
+                    cout << string("ERROR: Unknown Experiment Type!\n");
+                    throw CREATE_LOCATEDEXCEPTION_INFO("ERROR: Unknown Experiment Type!");
             }
 
         }
@@ -348,18 +245,8 @@ namespace HCUBE
             }
             cout << "Experiment finished\n";
 
-            //cout << "Saving Dump...";
-            //population->dump(outputFileName,true,false);
-            //cout << "Done!\n";
-
-            cout << "Saving best individuals...";
-            string bestFileName = outputFileName.substr(0,outputFileName.length()-4)+string("_best.xml");
-            population->dumpBest(bestFileName,true,true);
-            cout << "Done!\n";
-
-            cout << "Deleting backup file...";
-            boost::filesystem::remove(outputFileName+string(".backup.xml.gz"));
-            cout << "Done!\n";
+            // Save best individuals.
+            saveBest();
 
 #ifndef _DEBUG
         }
@@ -565,5 +452,13 @@ namespace HCUBE
         {
             cout << "Unhandled Exception\n";
         }
+    }
+
+    void ExperimentRun::saveBest( void )
+    {
+        cout << "Saving best individuals...";
+        string bestFileName = outputFileName.substr(0,outputFileName.length()-4)+string("_best.xml");
+        population->dumpBest(bestFileName,true,true);
+        cout << "Done!\n";
     }
 }

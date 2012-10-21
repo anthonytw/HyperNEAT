@@ -114,6 +114,11 @@ namespace HCUBE
         shared_ptr<NEAT::GeneticGeneration> pythonEvaluationSet();
 
         /**
+         * For saving the best individuals of the population.
+         */
+        void saveBest( void );
+        
+        /**
         * This function initializes an experiment given the experiment type ID.
         * This is for beginning a new run from generation 0.
         */
@@ -170,7 +175,6 @@ namespace HCUBE
         {
             return *this;
         }
-
     };
 }
 

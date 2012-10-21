@@ -195,57 +195,48 @@ Vector3<int> tupleToVector3Int(python::tuple t)
 	);
 }
 
+// Configure an experiment to run. Call when the experiment will be mainly
+// conducted in Python.
 shared_ptr<HCUBE::ExperimentRun> Py_setupExperiment(string file,string outputFile)
 {
-    cout << "LOADING GLOBALS FROM FILE: " << file << endl;
-    cout << "OUTPUT FILE: " << outputFile << endl;
+    cout << "CONFIGURING EXPERIMENT:" << endl;
+    cout << " : Globals : " << file << endl;
+    cout << " : Output  : " << outputFile << endl;
+    
     NEAT::Globals::init(file);
-
     int experimentType = int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
 
-    cout << "Loading Experiment: " << experimentType << endl;
-
+    cout << "- Loading Experiment: " << experimentType << "..." << flush;
     shared_ptr<HCUBE::ExperimentRun> experimentRun(new HCUBE::ExperimentRun());
-
     experimentRun->setupExperiment(experimentType,outputFile);
-
-    cout << "Experiment set up\n";
-
+    cout << "Done" << endl;
+    
+    cout << "- Creating population..." << flush;
     experimentRun->createPopulation();
-
     experimentRun->setCleanup(true);
+    cout << "Done" << endl;
 
-    cout << "Population Created\n";
-
-    experimentRun->start();
+    cout << "- Setup complete" << endl;
 
     return experimentRun;
 }
 
-shared_ptr<HCUBE::ExperimentRun> Py_Experiment(string file,string outputFile)
+// Configure an experiment and then run it through the C++ interface. In this
+// case the experiment will run in C++ and the results will be returned to
+// Python.
+shared_ptr<HCUBE::ExperimentRun> Py_setupAndRunExperiment(string file,string outputFile)
 {
-    cout << "LOADING GLOBALS FROM FILE: " << file << endl;
-    cout << "OUTPUT FILE: " << outputFile << endl;
-    NEAT::Globals::init(file);
+    // Setup experiment.
+    shared_ptr<HCUBE::ExperimentRun> experimentRun = Py_setupExperiment(file, outputFile);
 
-    int experimentType = int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
+    // Run experiment.
+    cout << "- Running experiment..." << endl;
+    cout << "===========================================" << endl;
+    experimentRun->start();
+    cout << "===========================================" << endl;
+    cout << "- Experiment finished" << endl;
 
-    cout << "Loading Experiment: " << experimentType << endl;
-
-    shared_ptr<HCUBE::ExperimentRun> experimentRun(new HCUBE::ExperimentRun());
-
-    experimentRun->setupExperiment(experimentType,outputFile);
-
-    cout << "Experiment set up\n";
-
-    experimentRun->createPopulation();
-
-    experimentRun->setCleanup(true);
-
-    cout << "Population Created\n";
-
-    cout << "Experiment Setup\n";
-
+    // Finished, now return.
     return experimentRun;
 }
 
@@ -270,6 +261,7 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 		.def("finishEvaluations", &HCUBE::ExperimentRun::finishEvaluations)
 		.def("preprocessPopulation", &HCUBE::ExperimentRun::preprocessPopulation)
 		.def("pythonEvaluationSet", &HCUBE::ExperimentRun::pythonEvaluationSet)
+        .def("saveBest", &HCUBE::ExperimentRun::saveBest)
     ;
 
     python::class_<NEAT::GeneticPopulation , shared_ptr<NEAT::GeneticPopulation> >("GeneticPopulation",python::init<>())
@@ -345,8 +337,8 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
     python::def("initializeHyperNEAT", initializeHyperNEAT);
 	python::def("cleanupHyperNEAT", cleanupHyperNEAT);
 	python::def("tupleToVector3Int", tupleToVector3Int, python::return_value_policy<python::return_by_value>());
-	python::def("Py_Experiment", Py_Experiment);
-    python::def("setupExperiment", Py_setupExperiment);
+	python::def("setupExperiment", Py_setupExperiment);
+    python::def("setupAndRunExperiment", Py_setupAndRunExperiment);
 
     python::def("getExperimentType", Py_getExperimentType);
     python::def("getMaximumGenerations",Py_getMaximumGenerations);
