@@ -10,8 +10,8 @@ SpeciesSizeTarget 8.0
 DropoffAge 15.0
 AgeSignificance	1.0
 SurvivalThreshold 0.2
-MutateAddNodeProbability 0.08
-MutateAddLinkProbability 0.15
+MutateAddNodeProbability 0.03
+MutateAddLinkProbability 0.04
 MutateDemolishLinkProbability 0.00
 MutateLinkWeightsProbability 0.9
 MutateOnlyProbability 0.25
@@ -19,7 +19,7 @@ MutateLinkProbability 0.1
 AllowAddNodeToRecurrentConnection 0.0
 SmallestSpeciesSizeWithElitism 5.0
 MutateSpeciesChampionProbability 0.0
-MutationPower 20.5
+MutationPower 1.5
 AdultLinkAge 18.0
 AllowRecurrentConnections 1.0
 AllowSelfRecurrentConnections 1.0
@@ -30,7 +30,7 @@ RandomSeed -1.0
 ExtraActivationFunctions 1.0
 AddBiasToHiddenNodes 0.0
 SignedActivation 1.0
-ExtraActivationUpdates 9.0
+ExtraActivationUpdates 1.0
 OnlyGaussianHiddenNodes 0.0
-ExperimentType 25.0
+ExperimentType 31.0
 
