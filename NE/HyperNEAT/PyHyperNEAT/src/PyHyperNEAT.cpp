@@ -3,255 +3,314 @@
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
-
 #include "HCUBE_ExperimentRun.h"
 #include "Experiments/HCUBE_Experiment.h"
 #include "ImageExperiment/ImageExperiment.h"
 
-//#include "Experiments/HCUBE_CheckersExperiment.h"
-
-//#include "SgInit.h"
-//#include "GoInit.h"
-
 using namespace NEAT;
 
-NEAT::GeneticPopulation* loadFromPopulation(string filename)
+class PyHyperNEAT
 {
-	string populationFilename = filename;
-	cout << "Loading population file: " << populationFilename << endl;
+    public:
+        /**
+         * Perform HyperNEAT initialization through Python.
+         */
+        static void initialize()
+        {
+            // No initialization necessary at this point.
+        }
 
-	{
-		TiXmlDocument doc(populationFilename);
+        /**
+         * Perform HyperNEAT cleanup through Python.
+         */
+        static void cleanup()
+        {
+            NEAT::Globals::deinit();
+        }
 
-		bool loadStatus;
+        /**
+         * Load a previously saved population from an XML file.
+         *
+         * @param filename The XML file.
+         * @return The population.
+         */
+        static NEAT::GeneticPopulation * load( const string & filename )
+        {
+            cout << "Loading population file: " << filename << endl;
+                
+            TiXmlDocument doc(filename);
+            bool loadStatus = false;
 
-		if (iends_with(populationFilename,".gz"))
-		{
-			loadStatus = doc.LoadFileGZ();
-		}
-		else
-		{
-			loadStatus = doc.LoadFile();
-		}
+            if (iends_with(filename,".gz"))
+                loadStatus = doc.LoadFileGZ();
+            else
+                loadStatus = doc.LoadFile();
 
-		if (!loadStatus)
-		{
-			throw CREATE_LOCATEDEXCEPTION_INFO("Error trying to load the XML file!");
-		}
+            if (!loadStatus)
+                throw CREATE_LOCATEDEXCEPTION_INFO("Error trying to load the XML file!");
 
-		TiXmlElement *element = doc.FirstChildElement();
+            TiXmlElement *element = doc.FirstChildElement();
+            NEAT::Globals* globals = NEAT::Globals::init(element);
 
-		NEAT::Globals* globals = NEAT::Globals::init(element);
+            return new NEAT::GeneticPopulation(filename);
+        }
 
-		//Destroy the document
-	}
+        /**
+         * Converts a Python list to a STL vector.
+         *
+         * @param list The list.
+         * @return An STL vector.
+         */
+        template<class T>
+        static vector<T> convertListToVector( python::list * list )
+        {
+            vector<T> vec;
+            for ( int a=0; a<python::len(*list); ++a )
+            {
+                vec.push_back( 
+                    boost::python::extract<T>((*list)[a]) );
+            }
+            return vec;
+        }
 
-	return new NEAT::GeneticPopulation(populationFilename);
-}
+        /**
+         * Converts a STL vector to a Python list.
+         *
+         * @param vector The vector.
+         * @return The Python list.
+         */
+        template<class T>
+        static python::list convertVectorToList( const std::vector<T> & vector )
+        {
+            python::object get_iter = python::iterator<std::vector<T> >();
+            python::object iter = get_iter(vector);
+            python::list l(iter);
+            return l;
+        }
 
-void initializeHyperNEAT()
-{
-    /*
-    char str[1024];
-    initcake(str);
-    SgInit();
-    GoInit();
-    */
-}
+        /**
+         * Sets a substrate layer information.
+         */
+        static void setLayerInfo(
+             shared_ptr<NEAT::LayeredSubstrate<float> > substrate,
+             python::list _layerSizes,
+             python::list _layerNames,
+             python::list _layerAdjacencyList,
+             python::list _layerIsInput,
+             python::list _layerLocations,
+             bool normalize,
+             bool useOldOutputNames )
+        {
+            NEAT::LayeredSubstrateInfo layerInfo;
 
-void cleanupHyperNEAT()
-{
-	NEAT::Globals::deinit();
-}
+            for(int a=0;a<python::len(_layerSizes);a++)
+            {
+                layerInfo.layerSizes.push_back( 
+                    JGTL::Vector2<int>( 
+                    boost::python::extract<int>((_layerSizes)[a][0]), 
+                    boost::python::extract<int>((_layerSizes)[a][1])
+                    ) 
+                    );
+            }
 
-template<class T>
-vector<T> convertListToVector(python::list *list)
-{
-    vector<T> vec;
-    for(int a=0;a<python::len(*list);a++)
-    {
-        vec.push_back( 
-            boost::python::extract<T>((*list)[a])
+            for(int a=0;a<python::len(_layerNames);a++)
+            {
+                layerInfo.layerNames.push_back( 
+                    boost::python::extract<string>(_layerNames[a])
+                    );
+            }
+
+            for(int a=0;a<python::len(_layerAdjacencyList);a++)
+            {
+                layerInfo.layerAdjacencyList.push_back( 
+                    std::pair<string,string>( 
+                    boost::python::extract<string>((_layerAdjacencyList)[a][0]), 
+                    boost::python::extract<string>((_layerAdjacencyList)[a][1])
+                    ) 
+                    );
+            }
+
+            vector< bool > layerIsInput = convertListToVector<bool>(&_layerIsInput);
+            for(int a=0;a<int(layerIsInput.size());a++)
+            {
+                layerInfo.layerIsInput.push_back(layerIsInput[a]);
+            }
+
+            for(int a=0;a<python::len(_layerLocations);a++)
+            {
+                layerInfo.layerLocations.push_back( 
+                    JGTL::Vector3<float>( 
+                    boost::python::extract<float>((_layerLocations)[a][0]), 
+                    boost::python::extract<float>((_layerLocations)[a][1]),
+                    boost::python::extract<float>((_layerLocations)[a][2])
+                    ) 
+                    );
+            }
+
+            layerInfo.normalize = normalize;
+            layerInfo.useOldOutputNames = useOldOutputNames;
+
+            substrate->setLayerInfo(layerInfo);
+        }
+
+        /**
+         *
+         */
+        static void setLayerInfoFromCurrentExperiment(shared_ptr<NEAT::LayeredSubstrate<float> > substrate)
+        {
+            int experimentType = int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
+            HCUBE::ExperimentRun experimentRun;
+            experimentRun.setupExperiment(experimentType,"");
+
+            substrate->setLayerInfo(
+                experimentRun.getExperiment()->getLayerInfo()
+                );
+        }
+
+        /**
+         * Returns the size of a substrate layer.
+         */
+        static python::tuple getLayerSize(shared_ptr<NEAT::LayeredSubstrate<float> > substrate,int index)
+        {
+            return python::make_tuple(
+                python::object(substrate->getLayerSize(index).x),
+                python::object(substrate->getLayerSize(index).y)
+                );
+        }
+
+        /**
+         * Returns the substrate layer position.
+         */
+        static python::tuple getLayerLocation(shared_ptr<NEAT::LayeredSubstrate<float> > substrate,int index)
+        {
+            return python::make_tuple(
+                python::object(substrate->getLayerLocation(index).x),
+                python::object(substrate->getLayerLocation(index).y),
+                python::object(substrate->getLayerLocation(index).z)
+                );
+        }
+
+        /**
+         * Converts a tuple to an STL vector of floats.
+         *
+         * @param tuple The tuple.
+         * @return A vector of floats.
+         */
+        static Vector3<float> tupleToVector3Float(python::tuple tuple)
+        {
+            return Vector3<float>(
+                python::extract<float>(tuple[0]),
+                python::extract<float>(tuple[1]),
+                python::extract<float>(tuple[2])
             );
-    }
-    return vec;
-}
+        }
 
-template<class T>
-python::list std_vector_to_py_list(const std::vector<T>& v)
-{
-    python::object get_iter = python::iterator<std::vector<T> >();
-    python::object iter = get_iter(v);
-    python::list l(iter);
-    return l;
-}
-
-void Py_setLayerInfo(
-                     shared_ptr<NEAT::LayeredSubstrate<float> > substrate,
-                     python::list _layerSizes,
-                     python::list _layerNames,
-                     python::list _layerAdjacencyList,
-                     python::list _layerIsInput,
-                     python::list _layerLocations,
-					 bool normalize,
-                     bool useOldOutputNames
-                     )
-{
-    NEAT::LayeredSubstrateInfo layerInfo;
-
-    for(int a=0;a<python::len(_layerSizes);a++)
-    {
-        layerInfo.layerSizes.push_back( 
-            JGTL::Vector2<int>( 
-            boost::python::extract<int>((_layerSizes)[a][0]), 
-            boost::python::extract<int>((_layerSizes)[a][1])
-            ) 
+        /**
+         * Converts a tuple to an STL vector of ints.
+         *
+         * @param tuple The tuple.
+         * @return A vector of ints.
+         */
+        static Vector3<int> tupleToVector3Int(python::tuple tuple)
+        {
+            return Vector3<int>(
+                python::extract<int>(tuple[0]),
+                python::extract<int>(tuple[1]),
+                python::extract<int>(tuple[2])
             );
-    }
+        }
 
-    for(int a=0;a<python::len(_layerNames);a++)
-    {
-        layerInfo.layerNames.push_back( 
-            boost::python::extract<string>(_layerNames[a])
-            );
-    }
+        /**
+         * Configure an experiment to run. Call when the experiment will be mainly
+         * conducted in Python.
+         *
+         * @param experiment_filename The filename of the experiment initial
+         *      conditions.
+         * @param output_filename The filename of the output file.
+         * @return The ExperimentRun object.
+         */
+        static shared_ptr<HCUBE::ExperimentRun> setupExperiment(
+            const string & experiment_filename,
+            const string & output_filename )
+        {
+            cout << "CONFIGURING EXPERIMENT:" << endl;
+            cout << " : Globals : " << experiment_filename << endl;
+            cout << " : Output  : " << output_filename << endl;
+            
+            NEAT::Globals::init(experiment_filename);
+            int experimentType = int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
 
-    for(int a=0;a<python::len(_layerAdjacencyList);a++)
-    {
-        layerInfo.layerAdjacencyList.push_back( 
-            std::pair<string,string>( 
-            boost::python::extract<string>((_layerAdjacencyList)[a][0]), 
-            boost::python::extract<string>((_layerAdjacencyList)[a][1])
-            ) 
-            );
-    }
+            cout << "- Loading Experiment: " << experimentType << "..." << flush;
+            shared_ptr<HCUBE::ExperimentRun> experimentRun(new HCUBE::ExperimentRun());
+            experimentRun->setupExperiment(experimentType, output_filename);
+            cout << "Done" << endl;
+            
+            cout << "- Creating population..." << flush;
+            experimentRun->createPopulation();
+            experimentRun->setCleanup(true);
+            cout << "Done" << endl;
 
-    vector< bool > layerIsInput = convertListToVector<bool>(&_layerIsInput);
-    for(int a=0;a<int(layerIsInput.size());a++)
-    {
-        layerInfo.layerIsInput.push_back(layerIsInput[a]);
-    }
+            cout << "- Setup complete" << endl;
 
-    for(int a=0;a<python::len(_layerLocations);a++)
-    {
-        layerInfo.layerLocations.push_back( 
-            JGTL::Vector3<float>( 
-            boost::python::extract<float>((_layerLocations)[a][0]), 
-            boost::python::extract<float>((_layerLocations)[a][1]),
-            boost::python::extract<float>((_layerLocations)[a][2])
-            ) 
-            );
-    }
+            return experimentRun;
+        }
 
-    layerInfo.normalize = normalize;
-    layerInfo.useOldOutputNames = useOldOutputNames;
+        /**
+         * Configure an experiment and then run it through the C++ interface.
+         * In this case the experiment will run in C++ and the results will
+         * be returned to Python.
+         *
+         * @param experiment_filename The filename of the experiment initial
+         *      conditions.
+         * @param output_filename The filename of the output file.
+         * @return The ExperimentRun object.
+         */
+        static shared_ptr<HCUBE::ExperimentRun> setupAndRunExperiment(
+                const string & experiment_filename,
+                const string & output_filename )
+        {
+            // Setup experiment.
+            shared_ptr<HCUBE::ExperimentRun> experimentRun = setupExperiment(experiment_filename, output_filename);
 
-    substrate->setLayerInfo(layerInfo);
-}
+            // Run experiment.
+            cout << "- Running experiment..." << endl;
+            cout << "===========================================" << endl;
+            experimentRun->start();
+            cout << "===========================================" << endl;
+            cout << "- Experiment finished" << endl;
 
-void Py_setLayerInfoFromCurrentExperiment(shared_ptr<NEAT::LayeredSubstrate<float> > substrate)
-{
-    int experimentType = int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
-    HCUBE::ExperimentRun experimentRun;
-    experimentRun.setupExperiment(experimentType,"");
+            // Finished, now return.
+            return experimentRun;
+        }
 
-    substrate->setLayerInfo(
-        experimentRun.getExperiment()->getLayerInfo()
-		);
-}
+        /**
+         * Returns the type of experiment being run.
+         */
+        static int getExperimentType()
+        {
+            return int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
+        }
 
-python::tuple Py_getLayerSize(shared_ptr<NEAT::LayeredSubstrate<float> > substrate,int index)
-{
-    return python::make_tuple(
-        python::object(substrate->getLayerSize(index).x),
-        python::object(substrate->getLayerSize(index).y)
-        );
-}
+        /**
+         * Returns the maximum number of generations for the experiment.
+         */
+        static int getMaximumGenerations()
+        {
+            return int(NEAT::Globals::getSingleton()->getParameterValue("MaxGenerations"));
+        }
+};
 
-python::tuple Py_getLayerLocation(shared_ptr<NEAT::LayeredSubstrate<float> > substrate,int index)
-{
-    return python::make_tuple(
-        python::object(substrate->getLayerLocation(index).x),
-        python::object(substrate->getLayerLocation(index).y),
-        python::object(substrate->getLayerLocation(index).z)
-        );
-}
-
-Vector3<float> tupleToVector3Float(python::tuple t)
-{
-	return Vector3<float>(
-		python::extract<float>(t[0]),
-		python::extract<float>(t[1]),
-		python::extract<float>(t[2])
-	);
-}
-
-Vector3<int> tupleToVector3Int(python::tuple t)
-{
-	return Vector3<int>(
-		python::extract<int>(t[0]),
-		python::extract<int>(t[1]),
-		python::extract<int>(t[2])
-	);
-}
-
-// Configure an experiment to run. Call when the experiment will be mainly
-// conducted in Python.
-shared_ptr<HCUBE::ExperimentRun> Py_setupExperiment(string file,string outputFile)
-{
-    cout << "CONFIGURING EXPERIMENT:" << endl;
-    cout << " : Globals : " << file << endl;
-    cout << " : Output  : " << outputFile << endl;
-    
-    NEAT::Globals::init(file);
-    int experimentType = int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
-
-    cout << "- Loading Experiment: " << experimentType << "..." << flush;
-    shared_ptr<HCUBE::ExperimentRun> experimentRun(new HCUBE::ExperimentRun());
-    experimentRun->setupExperiment(experimentType,outputFile);
-    cout << "Done" << endl;
-    
-    cout << "- Creating population..." << flush;
-    experimentRun->createPopulation();
-    experimentRun->setCleanup(true);
-    cout << "Done" << endl;
-
-    cout << "- Setup complete" << endl;
-
-    return experimentRun;
-}
-
-// Configure an experiment and then run it through the C++ interface. In this
-// case the experiment will run in C++ and the results will be returned to
-// Python.
-shared_ptr<HCUBE::ExperimentRun> Py_setupAndRunExperiment(string file,string outputFile)
-{
-    // Setup experiment.
-    shared_ptr<HCUBE::ExperimentRun> experimentRun = Py_setupExperiment(file, outputFile);
-
-    // Run experiment.
-    cout << "- Running experiment..." << endl;
-    cout << "===========================================" << endl;
-    experimentRun->start();
-    cout << "===========================================" << endl;
-    cout << "- Experiment finished" << endl;
-
-    // Finished, now return.
-    return experimentRun;
-}
-
-int Py_getExperimentType()
-{
-    return int(NEAT::Globals::getSingleton()->getParameterValue("ExperimentType")+0.001);
-}
-
-int Py_getMaximumGenerations()
-{
-	return int(NEAT::Globals::getSingleton()->getParameterValue("MaxGenerations"));
-}
-
-// Configure some function references.
-
+/**
+ * The following code section will register the bindings from C++ to Python.
+ * 
+ * Specifying classes with python::no_init will prevent Python from creating
+ * new objects of that type.
+ *
+ * Specifying classes with boost::noncopyable will prevent Python from copying
+ * objects instead of passing references.
+ *
+ * Both of these should be used to avoid oddities.
+ */
 BOOST_PYTHON_MODULE(PyHyperNEAT)
 {
 
@@ -307,13 +366,13 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 
 	python::class_<NEAT::LayeredSubstrate<float> , shared_ptr<NEAT::LayeredSubstrate<float> > >("LayeredSubstrate",python::init<>())
 		.def("populateSubstrate", &NEAT::LayeredSubstrate<float>::populateSubstrate)
-	    .def("setLayerInfo", &Py_setLayerInfo)
-	    .def("setLayerInfoFromCurrentExperiment", &Py_setLayerInfoFromCurrentExperiment)
+	    .def("setLayerInfo", &PyHyperNEAT::setLayerInfo)
+	    .def("setLayerInfoFromCurrentExperiment", &PyHyperNEAT::setLayerInfoFromCurrentExperiment)
 		.def("getNetwork", &NEAT::LayeredSubstrate<float>::getNetwork, python::return_value_policy<python::reference_existing_object>())
 		.def("getNumLayers", &NEAT::LayeredSubstrate<float>::getNumLayers)
 		.def("setValue", &NEAT::LayeredSubstrate<float>::setValue)
-		.def("getLayerSize", &Py_getLayerSize)
-		.def("getLayerLocation", &Py_getLayerLocation)
+		.def("getLayerSize", &PyHyperNEAT::getLayerSize)
+		.def("getLayerLocation", &PyHyperNEAT::getLayerLocation)
 		.def("getWeightRGB", &NEAT::LayeredSubstrate<float>::getWeightRGB)
 		.def("getActivationRGB", &NEAT::LayeredSubstrate<float>::getActivationRGB)
 		.def("dumpWeightsFrom", &NEAT::LayeredSubstrate<float>::dumpWeightsFrom)
@@ -333,13 +392,12 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 		.def(python::init<int,int,int>())
 	;
 
-	python::def("loadFromPopulation", loadFromPopulation, python::return_value_policy<python::manage_new_object>());
-    python::def("initializeHyperNEAT", initializeHyperNEAT);
-	python::def("cleanupHyperNEAT", cleanupHyperNEAT);
-	python::def("tupleToVector3Int", tupleToVector3Int, python::return_value_policy<python::return_by_value>());
-	python::def("setupExperiment", Py_setupExperiment);
-    python::def("setupAndRunExperiment", Py_setupAndRunExperiment);
-
-    python::def("getExperimentType", Py_getExperimentType);
-    python::def("getMaximumGenerations",Py_getMaximumGenerations);
+	python::def("load", PyHyperNEAT::load, python::return_value_policy<python::manage_new_object>());
+    python::def("initialize", PyHyperNEAT::initialize);
+	python::def("cleanup", PyHyperNEAT::cleanup);
+	python::def("tupleToVector3Int", PyHyperNEAT::tupleToVector3Int, python::return_value_policy<python::return_by_value>());
+	python::def("setupExperiment", PyHyperNEAT::setupExperiment);
+    python::def("setupAndRunExperiment", PyHyperNEAT::setupAndRunExperiment);
+    python::def("getExperimentType", PyHyperNEAT::getExperimentType);
+    python::def("getMaximumGenerations", PyHyperNEAT::getMaximumGenerations);
 }
