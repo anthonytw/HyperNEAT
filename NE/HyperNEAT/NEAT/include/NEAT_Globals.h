@@ -45,12 +45,16 @@ namespace NEAT
 
 		bool useTanhSigmoid;
     public:
-        static inline Globals *getSingleton()
+        static Globals *getSingleton()
         {
             if (!singleton)
                 throw CREATE_LOCATEDEXCEPTION_INFO("You didn't initialize Globals before using it!");
 
             return singleton;
+        }
+        static Globals & getSingletonRef( void )
+        {
+            return *(Globals*)getSingleton();
         }
 
         static inline Globals *init()
@@ -101,11 +105,20 @@ namespace NEAT
 
         NEAT_DLL_EXPORT bool hasParameterValue(const string &name);
 
-		NEAT_DLL_EXPORT double getParameterValue(const char *cname);
+		//NEAT_DLL_EXPORT double getParameterValue(const char *cname);
 
         NEAT_DLL_EXPORT double getParameterValue(string name);
 
         NEAT_DLL_EXPORT void setParameterValue(string name,double value);
+       
+        inline const string & getParameterName( const int index ) const
+        {
+            return parameters.getIndex(index).first;
+        }
+        inline int getParameterCount( void ) const
+        {
+            return parameters.size();
+        }
 
         inline StackMap<string,double,4096>::iterator getMapBegin()
         {

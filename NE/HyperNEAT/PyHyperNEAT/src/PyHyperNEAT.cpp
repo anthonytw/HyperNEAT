@@ -15,7 +15,7 @@ class PyHyperNEAT
         /**
          * Perform HyperNEAT initialization through Python.
          */
-        static void initialize()
+        static void initialize( void )
         {
             // No initialization necessary at this point.
         }
@@ -23,9 +23,17 @@ class PyHyperNEAT
         /**
          * Perform HyperNEAT cleanup through Python.
          */
-        static void cleanup()
+        static void cleanup( void )
         {
             NEAT::Globals::deinit();
+        }
+
+        /**
+         * Returns the global parameters singleton.
+         */
+        static NEAT::Globals & getGlobalParameters( void )
+        {
+            return NEAT::Globals::getSingletonRef();
         }
 
         /**
@@ -313,7 +321,6 @@ class PyHyperNEAT
  */
 BOOST_PYTHON_MODULE(PyHyperNEAT)
 {
-
 	//To prevent instances being created from python, you add boost::python::no_init to the class_ constructor
     python::class_<HCUBE::ExperimentRun , shared_ptr<HCUBE::ExperimentRun>,boost::noncopyable >("ExperimentRun",python::no_init)
 		.def("produceNextGeneration", &HCUBE::ExperimentRun::produceNextGeneration)
@@ -392,9 +399,20 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
 		.def(python::init<int,int,int>())
 	;
 
+    python::class_<NEAT::Globals, boost::noncopyable >("Globals", python::no_init)
+        .def("getParameterCount", &NEAT::Globals::getParameterCount)
+        .def("getParameterName", &NEAT::Globals::getParameterName,
+            python::return_value_policy<python::copy_const_reference>() )
+        .def("getParameterValue", &NEAT::Globals::getParameterValue)
+        .def("setParameterValue", &NEAT::Globals::setParameterValue)
+    ;
+
 	python::def("load", PyHyperNEAT::load, python::return_value_policy<python::manage_new_object>());
     python::def("initialize", PyHyperNEAT::initialize);
 	python::def("cleanup", PyHyperNEAT::cleanup);
+    python::def("getGlobalParameters",
+        PyHyperNEAT::getGlobalParameters,
+        python::return_value_policy<python::reference_existing_object>() );
 	python::def("tupleToVector3Int", PyHyperNEAT::tupleToVector3Int, python::return_value_policy<python::return_by_value>());
 	python::def("setupExperiment", PyHyperNEAT::setupExperiment);
     python::def("setupAndRunExperiment", PyHyperNEAT::setupAndRunExperiment);

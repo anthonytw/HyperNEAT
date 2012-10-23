@@ -291,10 +291,10 @@ namespace NEAT
 		return parameters.hasKey(name);
 	}
 
-    double Globals::getParameterValue(const char *cname)
-    {
-		return parameters.getDataRef(cname);
-    }
+    //double Globals::getParameterValue(const char *cname)
+    //{
+	//	return parameters.getDataRef(cname);
+    //}
 
     double Globals::getParameterValue(string name)
     {
