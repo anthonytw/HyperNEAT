@@ -207,10 +207,10 @@ Hypercube_NEAT_Base
 	${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_RELEASE}
 
     debug
-    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_DEBUG}-py27
+    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_DEBUG}
 
     optimized
-    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_RELEASE}-py27
+    ${BOOST_LIB_PREFIX_NAME}boost_python-${BOOST_LIB_EXT_NAME_RELEASE}
 
     debug
     ${BOOST_LIB_PREFIX_NAME}boost_filesystem-${BOOST_LIB_EXT_NAME_DEBUG}
