@@ -355,6 +355,7 @@ BOOST_PYTHON_MODULE(PyHyperNEAT)
         .def("isValid", &NEAT::GeneticIndividual::isValid)
         .def("printIndividual", &NEAT::GeneticIndividual::print)
         .def("reward",&NEAT::GeneticIndividual::reward)
+        .def("saveToFile", &NEAT::GeneticIndividual::saveToFile)
     ;
 
 	python::class_<std::vector<shared_ptr<NEAT::GeneticIndividual> > >("GeneticIndividualVector")

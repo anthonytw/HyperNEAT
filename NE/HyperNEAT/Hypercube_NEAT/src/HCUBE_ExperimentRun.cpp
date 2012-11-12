@@ -458,7 +458,7 @@ namespace HCUBE
     {
         cout << "Saving best individuals...";
         string bestFileName = outputFileName.substr(0,outputFileName.length()-4)+string("_best.xml");
-        population->dumpBest(bestFileName,true,true);
+        population->dumpBest(bestFileName,true,false);
         cout << "Done!\n";
     }
 }

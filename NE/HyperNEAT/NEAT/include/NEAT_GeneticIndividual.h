@@ -111,6 +111,10 @@ namespace NEAT
 
         NEAT_DLL_EXPORT bool linkExists(int fromNode,int toNode) const;
 
+        NEAT_DLL_EXPORT void saveToFile(
+            const string & filename,
+            const bool compressed );
+
         NEAT_DLL_EXPORT void dump(TiXmlElement *root,bool dumpGenes=true);
 
         NEAT_DLL_EXPORT void dump(ostream &ostr);

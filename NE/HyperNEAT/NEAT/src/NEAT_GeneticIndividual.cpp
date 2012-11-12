@@ -804,6 +804,36 @@ namespace NEAT
         }
     }
 
+    void GeneticIndividual::saveToFile(
+        const string & filename,
+        const bool compressed )
+    {
+        TiXmlDocument doc( filename );
+        TiXmlElement *root = new TiXmlElement("Genetics");
+        double old_population = Globals::getSingleton()->getParameterValue("PopulationSize");
+        Globals::getSingleton()->setParameterValue("PopulationSize", 1.0);
+        Globals::getSingleton()->dump(root);
+        Globals::getSingleton()->setParameterValue("PopulationSize", old_population);
+
+        TiXmlElement *generationElementPtr = new TiXmlElement("GeneticGeneration");
+        generationElementPtr->SetAttribute("GenNumber", 1);
+        generationElementPtr->SetAttribute("UserData", "");
+        generationElementPtr->SetAttribute("AverageFitness", 0.0);
+        generationElementPtr->SetAttribute("SpeciesCount", 1.0);
+
+        TiXmlElement *individualElementPtr = new TiXmlElement("Individual");
+        dump(individualElementPtr, true);
+        generationElementPtr->LinkEndChild(individualElementPtr);
+
+        root->LinkEndChild(generationElementPtr);
+        doc.LinkEndChild(root);
+        
+        if ( compressed )
+            doc.SaveFileGZ();
+        else
+            doc.SaveFile();
+    }
+
     void GeneticIndividual::print() const
     {
         cout << "NEW INDIVIDUAL:\n";
