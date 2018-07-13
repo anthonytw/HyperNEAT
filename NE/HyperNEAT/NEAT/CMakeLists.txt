@@ -43,13 +43,13 @@ PATH
 "Zlib include directory"
 ) 
 
-SET(
-	BOARD_INCLUDE
-	"../../../../Libraries/Board/include/"
-	CACHE
-	PATH 
-	"libboard include directory"
-	) 
+#SET(
+#	BOARD_INCLUDE
+#	"../../../../Libraries/Board/include/"
+#	CACHE
+#	PATH 
+#	"libboard include directory"
+#	) 
 
 INCLUDE_DIRECTORIES(
 include
@@ -60,26 +60,26 @@ ${ZLIB_INCLUDE}
 ${BOARD_INCLUDE}
 )
 
-IF(BUILD_GPU)
-        SET(
-        OPENCL_INCLUDE
-        "C:/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/inc"
-        CACHE
-        PATH 
-        "OpenCL include directory"
-        )
-        INCLUDE_DIRECTORIES(
-        ${OPENCL_INCLUDE}
-        )
-ENDIF(BUILD_GPU)
+#IF(BUILD_GPU)
+#        SET(
+#        OPENCL_INCLUDE
+#        "C:/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/inc"
+#        CACHE
+#        PATH 
+#        "OpenCL include directory"
+#        )
+#        INCLUDE_DIRECTORIES(
+#        ${OPENCL_INCLUDE}
+#        )
+#ENDIF(BUILD_GPU)
 
-SET(
-	BOOST_STAGE
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../../Libraries/boost-trunk/stage/lib"
-	CACHE
-	PATH 
-	"Boost Stage Directory"
-)
+#SET(
+#	BOOST_STAGE
+#	"${CMAKE_CURRENT_SOURCE_DIR}/../../../../Libraries/boost-trunk/stage/lib"
+#	CACHE
+#	PATH 
+#	"Boost Stage Directory"
+#)
 
 SET(
 TINYXMLDLL_LIB
@@ -97,21 +97,21 @@ PATH
 "Zlib Library Directory"
 ) 
 
-SET(
-	BOARD_LIB
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../../Libraries/Board/out/"
-	CACHE
-	PATH 
-	"libboard library directory"
-	) 
-
-SET(
-OPENCL_LIB
-"C:/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/lib/x64"
-CACHE
-PATH 
-"OpenCL Library Directory"
-) 
+#SET(
+#	BOARD_LIB
+#	"${CMAKE_CURRENT_SOURCE_DIR}/../../../../Libraries/Board/out/"
+#	CACHE
+#	PATH 
+#	"libboard library directory"
+#	) 
+#
+#SET(
+#OPENCL_LIB
+#"C:/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/lib/x64"
+#CACHE
+#PATH 
+#"OpenCL Library Directory"
+#) 
 
 LINK_DIRECTORIES(
 ${TINYXMLDLL_LIB}

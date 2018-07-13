@@ -8,7 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include <ctime>
+//#include <ctime>
 #include <cmath>
 #include <climits>
 #include <sstream>

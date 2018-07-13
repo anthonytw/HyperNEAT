@@ -406,7 +406,7 @@ use_precompiled_header(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/HCUBE_Defines.cpp"
 	)
 
-ADD_DEPENDENCIES(Hypercube_NEAT_Base NEATLib CakeFixedDepthLib ClicheLib)
+ADD_DEPENDENCIES(Hypercube_NEAT_Base NEATLib)
 
 SET_TARGET_PROPERTIES(Hypercube_NEAT_Base PROPERTIES DEBUG_POSTFIX _d)
 
@@ -486,22 +486,22 @@ TARGET_LINK_LIBRARIES(
 	board
 
 	debug
-	${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_DEBUG}
+	${BOOST_LIB_PREFIX_NAME}boost_thread
 
 	optimized
-	${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_RELEASE}
+	${BOOST_LIB_PREFIX_NAME}boost_thread
 
 	debug
-	${BOOST_LIB_PREFIX_NAME}boost_filesystem-${BOOST_LIB_EXT_NAME_DEBUG}
+	${BOOST_LIB_PREFIX_NAME}boost_filesystem
 
 	optimized
-	${BOOST_LIB_PREFIX_NAME}boost_filesystem-${BOOST_LIB_EXT_NAME_RELEASE}
+	${BOOST_LIB_PREFIX_NAME}boost_filesystem
 
 	debug
-	${BOOST_LIB_PREFIX_NAME}boost_system-${BOOST_LIB_EXT_NAME_DEBUG}
+	${BOOST_LIB_PREFIX_NAME}boost_system
 
 	optimized
-	${BOOST_LIB_PREFIX_NAME}boost_system-${BOOST_LIB_EXT_NAME_RELEASE}
+	${BOOST_LIB_PREFIX_NAME}boost_system
 )
 
 IF(USE_GUI)
@@ -510,22 +510,10 @@ IF(USE_GUI)
 			Hypercube_NEAT
 
 			debug
-			wx_based-2.8
+			wx_gtk2-2.8
 
 			optimized
-			wx_base-2.8
-
-			debug
-			wx_mswd_core-2.8
-
-			optimized
-			wx_msw_core-2.8
-
-			debug
-			wx_mswd_adv-2.8
-
-			optimized
-			wx_msw_adv-2.8
+			wx_gtk2-2.8
 			)
 	ELSE(CYGWIN)
 		IF(WIN32)
@@ -559,56 +547,20 @@ IF(USE_GUI)
 				"-framework Carbon"
 		
 				debug
-				wx_macud_adv-2.8
+				wx_gtk2-2.8
 
 				optimized
-				wx_macu_adv-2.8
-
-				debug
-				wx_macud_aui-2.8
-
-				optimized
-				wx_macu_aui-2.8
-
-				debug
-				wx_macud_qa-2.8
-
-				optimized
-				wx_macu_qa-2.8
-
-				debug
-				wx_macud_core-2.8
-
-				optimized
-				wx_macu_core-2.8
-
-				debug
-				wx_base_carbonud-2.8
-
-				optimized
-				wx_base_carbonu-2.8
+				wx_gtk2-2.8
 				)
 			ELSE(APPLE)
 			TARGET_LINK_LIBRARIES(
 				Hypercube_NEAT 
 
 				debug
-				wx_baseud-2.8
+				wx_gtk2-2.8
 
 				optimized
-				wx_baseu-2.8
-
-				debug
-				wx_gtk2ud_core-2.8
-
-				optimized
-				wx_gtk2u_core-2.8
-
-				debug
-				wx_gtk2ud_adv-2.8
-
-				optimized
-				wx_gtk2u_adv-2.8
+				wx_gtk2-2.8
 				)
 			ENDIF(APPLE)
 		ENDIF(WIN32)
@@ -699,22 +651,22 @@ IF(BUILD_MPI)
 	board
 
 			debug
-			${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_DEBUG}
+			${BOOST_LIB_PREFIX_NAME}boost_thread
 
 			optimized
-			${BOOST_LIB_PREFIX_NAME}boost_thread-${BOOST_LIB_EXT_NAME_RELEASE}
+			${BOOST_LIB_PREFIX_NAME}boost_thread
 
 			debug
-			${BOOST_LIB_PREFIX_NAME}boost_filesystem-${BOOST_LIB_EXT_NAME_DEBUG}
+			${BOOST_LIB_PREFIX_NAME}boost_filesystem
 
 			optimized
-			${BOOST_LIB_PREFIX_NAME}boost_filesystem-${BOOST_LIB_EXT_NAME_RELEASE}
+			${BOOST_LIB_PREFIX_NAME}boost_filesystem
 
 			debug
-			${BOOST_LIB_PREFIX_NAME}boost_system-${BOOST_LIB_EXT_NAME_DEBUG}
+			${BOOST_LIB_PREFIX_NAME}boost_system
 
 			optimized
-			${BOOST_LIB_PREFIX_NAME}boost_system-${BOOST_LIB_EXT_NAME_RELEASE}
+			${BOOST_LIB_PREFIX_NAME}boost_system
 	    )
 
 	IF(WIN32)
@@ -766,22 +718,10 @@ IF(BUILD_MPI)
 				Hypercube_NEAT_MPI
 
 				debug
-				wx_based-2.8
+				wx_gtk2-2.8
 
 				optimized
-				wx_base-2.8
-
-				debug
-				wx_mswd_core-2.8
-
-				optimized
-				wx_msw_core-2.8
-
-				debug
-				wx_mswd_adv-2.8
-
-				optimized
-				wx_msw_adv-2.8
+				wx_gtk2-2.8
 				)
 		ELSE(CYGWIN)
 			IF(WIN32)
@@ -815,56 +755,20 @@ IF(BUILD_MPI)
 				"-framework Carbon"
 		
 				debug
-				wx_macud_adv-2.8
+				wx_gtk2-2.8
 
 				optimized
-				wx_macu_adv-2.8
-
-				debug
-				wx_macud_aui-2.8
-
-				optimized
-				wx_macu_aui-2.8
-
-				debug
-				wx_macud_qa-2.8
-
-				optimized
-				wx_macu_qa-2.8
-
-				debug
-				wx_macud_core-2.8
-
-				optimized
-				wx_macu_core-2.8
-
-				debug
-				wx_base_carbonud-2.8
-
-				optimized
-				wx_base_carbonu-2.8
+				wx_gtk2-2.8
 				)
 			ELSE(APPLE)
 			TARGET_LINK_LIBRARIES(
 				Hypercube_NEAT_MPI
 
 				debug
-				wx_baseud-2.8
+				wx_gtk2-2.8
 
 				optimized
-				wx_baseu-2.8
-
-				debug
-				wx_gtk2ud_core-2.8
-
-				optimized
-				wx_gtk2u_core-2.8
-
-				debug
-				wx_gtk2ud_adv-2.8
-
-				optimized
-				wx_gtk2u_adv-2.8
+				wx_gtk2-2.8
 				)
 			ENDIF(APPLE)
 			ENDIF(WIN32)
